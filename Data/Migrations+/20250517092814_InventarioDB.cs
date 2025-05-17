@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -42,15 +43,14 @@ namespace InventarioPED.Data.Migrations
                 name: "Productos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Precio = table.Column<float>(type: "real", nullable: false),
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
                     Categoria = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Proveedor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaCreacion = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,8 +111,8 @@ namespace InventarioPED.Data.Migrations
                 columns: new[] { "Id", "Cantidad", "Categoria", "Descripcion", "FechaCreacion", "Nombre", "Precio", "Proveedor" },
                 values: new object[,]
                 {
-                    { 1, 20, "Tecnologia", "Computadora para el uso diario", "2025-08-05", "Computaddora", 150f, "Mamam" },
-                    { 2, 10, "Tecnologia", "Ups forza", "2026-05-01", "UPS FORZA", 120f, "Nnasd" }
+                    { "PROD20251", 20, "Tecnologia", "Computadora para el uso diario", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Computaddora", 150.2m, "Mamam" },
+                    { "PROD20252", 10, "Tecnologia", "Ups forza", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "UPS FORZA", 120.0m, "Nnasd" }
                 });
 
             migrationBuilder.CreateIndex(
