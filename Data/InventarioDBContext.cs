@@ -16,40 +16,58 @@ namespace InventarioPED.Data
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Prioridad> Prioridades { get; set; }
 
-        string conexion = Properties.Settings.Default.Connection;
+        private readonly string conexion = Properties.Settings.Default.Connection;
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(conexion);
+        }
+        public override int SaveChanges()
+        {
+            AsignarValoresPersonalizados();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            AsignarValoresPersonalizados();
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Producto>(entity =>
+            {
+                entity.Property(p => p.FechaCreacion)
+                      .HasColumnType("date");  // <-- aquí que sea solo date en la DB
+            });
+
             modelBuilder.Entity<Producto>().HasData(
                 new Producto
                 {
-                    Id = 1,
+                    Id = "PROD20251",
                     Nombre = "Computaddora",
                     Descripcion = "Computadora para el uso diario",
-                    Precio = 150.00f,
+                    Precio = 150.2m,
                     Cantidad = 20,
                     Categoria = "Tecnologia",
                     Proveedor = "Mamam",
-                    FechaCreacion = DateTime.Now.ToString("2025-08-05")
+                    FechaCreacion  = new DateTime(2025, 1, 1)
                 },
                 new Producto
                 {
-                    Id = 2,
+                    Id = "PROD20252",
                     Nombre = "UPS FORZA",
                     Descripcion = "Ups forza",
-                    Precio = 120.0f,
+                    Precio = 120.0m,
                     Cantidad = 10,
                     Categoria = "Tecnologia",
                     Proveedor = "Nnasd",
-                    FechaCreacion = DateTime.Now.ToString("2026-05-01")
+                    FechaCreacion = new DateTime(2025, 1, 1)
                 }
-            );
+            ); ;
 
             modelBuilder.Entity<Estado>().HasData(
                 new Estado
@@ -86,6 +104,36 @@ namespace InventarioPED.Data
                     Nombre = "Baja"
                 }
             );
+        }
+        private void AsignarValoresPersonalizados()
+        {
+            var nuevosProductos = ChangeTracker.Entries<Producto>()
+                .Where(e => e.State == EntityState.Added)
+                .Select(e => e.Entity);
+
+            foreach (var producto in nuevosProductos)
+            {
+                producto.FechaCreacion = DateTime.Now;
+
+                // Verificamos si el Id ya está asignado (por seguridad)
+                if (string.IsNullOrWhiteSpace(producto.Id))
+                {
+                    int año = DateTime.Now.Year;
+                    var ultimo = Productos
+                    .Where(p => p.Id.StartsWith($"PROD{año}"))
+                    .OrderByDescending(p => p.Id)
+                    .Select(p => p.Id)
+                    .FirstOrDefault();
+
+                    int nuevoNumero = 1;
+                    if (!string.IsNullOrEmpty(ultimo) && int.TryParse(ultimo.Substring(8), out int ultimoNumero))
+                    {
+                        nuevoNumero = ultimoNumero + 1;
+                    }
+
+                    producto.Id = $"PROD{año}{nuevoNumero}";
+                }
+            }
         }
     }
 }
