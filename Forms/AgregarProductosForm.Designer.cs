@@ -62,7 +62,7 @@
             dgvUltimosProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUltimosProductos.Location = new Point(380, 74);
             dgvUltimosProductos.Name = "dgvUltimosProductos";
-            dgvUltimosProductos.Size = new Size(269, 371);
+            dgvUltimosProductos.Size = new Size(603, 371);
             dgvUltimosProductos.TabIndex = 1;
             // 
             // txtNombre
@@ -159,6 +159,7 @@
             // 
             // cmbCategoria
             // 
+            cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoria.FormattingEnabled = true;
             cmbCategoria.Items.AddRange(new object[] { " Tecnología" });
             cmbCategoria.Location = new Point(41, 317);
@@ -178,15 +179,15 @@
             lblProveedor.AutoSize = true;
             lblProveedor.Location = new Point(41, 358);
             lblProveedor.Name = "lblProveedor";
-            lblProveedor.Size = new Size(58, 15);
+            lblProveedor.Size = new Size(61, 15);
             lblProveedor.TabIndex = 15;
-            lblProveedor.Text = "Categoria";
+            lblProveedor.Text = "Proveedor";
             // 
             // AgregarProductosForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(675, 468);
+            ClientSize = new Size(1013, 468);
             Controls.Add(lblProveedor);
             Controls.Add(txtProveedor);
             Controls.Add(cmbCategoria);
