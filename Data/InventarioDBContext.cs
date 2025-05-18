@@ -24,13 +24,11 @@ namespace InventarioPED.Data
         }
         public override int SaveChanges()
         {
-            AsignarValoresPersonalizados();
             return base.SaveChanges();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            AsignarValoresPersonalizados();
             return await base.SaveChangesAsync(cancellationToken);
         }
 
@@ -113,27 +111,10 @@ namespace InventarioPED.Data
 
             foreach (var producto in nuevosProductos)
             {
-                producto.FechaCreacion = DateTime.Now;
-
-                // Verificamos si el Id ya está asignado (por seguridad)
-                if (string.IsNullOrWhiteSpace(producto.Id))
-                {
-                    int año = DateTime.Now.Year;
-                    var ultimo = Productos
-                    .Where(p => p.Id.StartsWith($"PROD{año}"))
-                    .OrderByDescending(p => p.Id)
-                    .Select(p => p.Id)
-                    .FirstOrDefault();
-
-                    int nuevoNumero = 1;
-                    if (!string.IsNullOrEmpty(ultimo) && int.TryParse(ultimo.Substring(8), out int ultimoNumero))
-                    {
-                        nuevoNumero = ultimoNumero + 1;
-                    }
-
-                    producto.Id = $"PROD{año}{nuevoNumero}";
-                }
+                if (producto.FechaCreacion == default)
+                    producto.FechaCreacion = DateTime.Now;
             }
         }
+
     }
 }

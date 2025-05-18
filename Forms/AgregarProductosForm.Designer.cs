@@ -55,7 +55,7 @@
             btnAgregar.TabIndex = 0;
             btnAgregar.Text = "Agregar";
             btnAgregar.UseVisualStyleBackColor = true;
-            btnAgregar.Click += btnAgregar_ClickAsync;
+            btnAgregar.Click += BtnAgregar_ClickAsync;
             // 
             // dgvUltimosProductos
             // 
@@ -160,6 +160,7 @@
             // cmbCategoria
             // 
             cmbCategoria.FormattingEnabled = true;
+            cmbCategoria.Items.AddRange(new object[] { " Tecnología" });
             cmbCategoria.Location = new Point(41, 317);
             cmbCategoria.Name = "cmbCategoria";
             cmbCategoria.Size = new Size(121, 23);
