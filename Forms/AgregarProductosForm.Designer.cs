@@ -42,8 +42,8 @@
             txtCantidad = new TextBox();
             label1 = new Label();
             cmbCategoria = new ComboBox();
-            txtProveedor = new TextBox();
             lblProveedor = new Label();
+            cmbProveedor = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvUltimosProductos).BeginInit();
             SuspendLayout();
             // 
@@ -60,14 +60,14 @@
             // dgvUltimosProductos
             // 
             dgvUltimosProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUltimosProductos.Location = new Point(380, 74);
+            dgvUltimosProductos.Location = new Point(398, 74);
             dgvUltimosProductos.Name = "dgvUltimosProductos";
-            dgvUltimosProductos.Size = new Size(603, 371);
+            dgvUltimosProductos.Size = new Size(655, 528);
             dgvUltimosProductos.TabIndex = 1;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(41, 92);
+            txtNombre.Location = new Point(41, 95);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(226, 23);
             txtNombre.TabIndex = 2;
@@ -164,15 +164,8 @@
             cmbCategoria.Items.AddRange(new object[] { " Tecnología" });
             cmbCategoria.Location = new Point(41, 317);
             cmbCategoria.Name = "cmbCategoria";
-            cmbCategoria.Size = new Size(121, 23);
+            cmbCategoria.Size = new Size(191, 23);
             cmbCategoria.TabIndex = 13;
-            // 
-            // txtProveedor
-            // 
-            txtProveedor.Location = new Point(41, 376);
-            txtProveedor.Name = "txtProveedor";
-            txtProveedor.Size = new Size(272, 23);
-            txtProveedor.TabIndex = 14;
             // 
             // lblProveedor
             // 
@@ -183,13 +176,23 @@
             lblProveedor.TabIndex = 15;
             lblProveedor.Text = "Proveedor";
             // 
+            // cmbProveedor
+            // 
+            cmbProveedor.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbProveedor.FormattingEnabled = true;
+            cmbProveedor.Items.AddRange(new object[] { " Tecnología" });
+            cmbProveedor.Location = new Point(41, 376);
+            cmbProveedor.Name = "cmbProveedor";
+            cmbProveedor.Size = new Size(191, 23);
+            cmbProveedor.TabIndex = 16;
+            // 
             // AgregarProductosForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1013, 468);
+            ClientSize = new Size(1079, 636);
+            Controls.Add(cmbProveedor);
             Controls.Add(lblProveedor);
-            Controls.Add(txtProveedor);
             Controls.Add(cmbCategoria);
             Controls.Add(label1);
             Controls.Add(txtCantidad);
@@ -228,7 +231,7 @@
         private TextBox txtCantidad;
         private Label label1;
         private ComboBox cmbCategoria;
-        private TextBox txtProveedor;
         private Label lblProveedor;
+        private ComboBox cmbProveedor;
     }
 }

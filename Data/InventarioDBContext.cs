@@ -15,6 +15,9 @@ namespace InventarioPED.Data
         public DbSet<Envio> Envios { get; set; }
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Prioridad> Prioridades { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Proveedor> Proveedores { get; set; }
+
 
         private readonly string conexion = Properties.Settings.Default.Connection;
         
@@ -50,8 +53,8 @@ namespace InventarioPED.Data
                     Descripcion = "Computadora para el uso diario",
                     Precio = 150.2m,
                     Cantidad = 20,
-                    Categoria = "Tecnologia",
-                    Proveedor = "Mamam",
+                    CategoriaId = 1,
+                    ProveedorId = 2,
                     FechaCreacion  = new DateTime(2025, 1, 1)
                 },
                 new Producto
@@ -61,8 +64,8 @@ namespace InventarioPED.Data
                     Descripcion = "Ups forza",
                     Precio = 120.0m,
                     Cantidad = 10,
-                    Categoria = "Tecnologia",
-                    Proveedor = "Nnasd",
+                    CategoriaId = 1,
+                    ProveedorId = 2,
                     FechaCreacion = new DateTime(2025, 1, 1)
                 }
             ); ;
@@ -102,19 +105,60 @@ namespace InventarioPED.Data
                     Nombre = "Baja"
                 }
             );
-        }
-        private void AsignarValoresPersonalizados()
-        {
-            var nuevosProductos = ChangeTracker.Entries<Producto>()
-                .Where(e => e.State == EntityState.Added)
-                .Select(e => e.Entity);
 
-            foreach (var producto in nuevosProductos)
-            {
-                if (producto.FechaCreacion == default)
-                    producto.FechaCreacion = DateTime.Now;
-            }
-        }
+            modelBuilder.Entity<Categoria>().HasData(
+               new Categoria
+               {
+                   Id = 1,
+                   Nombre = "Computadoras y Laptops"
+               },
+               new Categoria
+               {
+                   Id = 2,
+                   Nombre = "Periféricos"
+               },
+               new Categoria
+               {
+                   Id = 3,
+                   Nombre = "Monitores y Pantallas"
+               },
+               new Categoria
+               {
+                   Id = 4,
+                   Nombre = "Almacenamiento"
+               },
+               new Categoria
+               {
+                   Id = 5,
+                   Nombre = "Conectividad"
+               },
+               new Categoria
+               {
+                   Id = 6,
+                   Nombre = "Impresoras"
+               },
+               new Categoria
+               { 
+                   Id = 7, 
+                   Nombre = "Monitores"
+               }
 
+           );
+
+            modelBuilder.Entity<Proveedor>().HasData(
+
+                new Proveedor { Id = 1, Nombre = "TechGlobal S.A." },
+                new Proveedor { Id = 2, Nombre = "InnovaTech Solutions" },
+                new Proveedor { Id = 3, Nombre = "Hardware Express" },
+                new Proveedor { Id = 4, Nombre = "CompuCentro Mayorista" },
+                new Proveedor { Id = 5, Nombre = "RedNet Distribuciones" },
+                new Proveedor { Id = 6, Nombre = "Digital Zone Ltd." },
+                new Proveedor { Id = 7, Nombre = "PeriTech MX" },
+                new Proveedor { Id = 8, Nombre = "SmartComponentes" },
+                new Proveedor { Id = 9, Nombre = "SoftWareHouse Corp." },
+                new Proveedor { Id = 10, Nombre = "GamingPro Distribuciones" }
+
+            );
+        }
     }
 }
