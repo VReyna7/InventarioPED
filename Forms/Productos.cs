@@ -1,5 +1,6 @@
 ﻿using InventarioPED.Data;
 using InventarioPED.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InventarioPED.Forms
 {
@@ -32,9 +34,12 @@ namespace InventarioPED.Forms
 
             // Llenar el ComboBox con los IDs de los productos registrados
             LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
+            LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
+            LlenarComboBoxDesdeArbol(arbol, cmbProdEdit);
 
-            // Llenar el ComboBox con las categorias de los productos registrados
-            LlenarComboBoxConCategorias(arbol, cmbCatProd);
+            // Llenar el ComboBox con las categorias
+            LlenarComboBoxConCategorias(cmbCatProd);
+            LlenarComboBoxConCategorias(cmbCatElim);
         }
 
         private void btnBusquedaId_Click(object sender, EventArgs e)
@@ -69,9 +74,8 @@ namespace InventarioPED.Forms
             }
             else
             {
-                MessageBox.Show("No se encontraron productos en esta categoría.", "Aviso");
+                MessageBox.Show("No se encontraron productos en esta categoría.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -80,12 +84,75 @@ namespace InventarioPED.Forms
             CargarDatosEnGrid(arbol, dataGridView1);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string categoria = txtCategoria.Text;
+            AgregarCategoria(categoria);
+            txtCategoria.Text = "";
+            LlenarComboBoxConCategorias(cmbCatProd);
+            LlenarComboBoxConCategorias(cmbCatElim);
+        }
+
+        private void btnElimCat_Click(object sender, EventArgs e)
+        {
+            string categoria = cmbCatElim.Text;
+
+            List<Nodo> productosCategoria = arbol.BuscarPorCategoria(categoria);
+
+            if (productosCategoria.Count > 0)
+            {
+                MessageBox.Show("No es posible eliminar la categoría, ya que hay productos que pertenecientes a ella.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                EliminarCategoria(categoria);
+                MessageBox.Show($"✅ Categoría '{categoria}' eliminada correctamente.", "Eliminacion Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LlenarComboBoxConCategorias(cmbCatElim);
+                LlenarComboBoxConCategorias(cmbCatProd);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string idProducto = cmbElimProd.Text;
+            Nodo prod = arbol.BuscarPorId(idProducto);
+            if (prod.Cantidad > 0)
+            {
+                MessageBox.Show("No es posible eliminar el producto, ya que hay unidades en existencia.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                EliminarProducto(idProducto);
+
+                //LIMPIANDO ARBOL Y GRID
+                arbol.LimpiarArbol();
+                dataGridView1.Rows.Clear(); // También vacía el DataGridView
+
+                //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
+                CargarProductosEnArbol(arbol);
+                CargarDatosEnGrid(arbol, dataGridView1);
+
+                //LLENANDO LOS CMB CORRESPONDIENTES
+                LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
+                LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
+            }
+        }
+
+
+
+
+
+        //--------------------------------------------------------------------------------------------------
+
         //FUNCION PARA CARGAR LOS PRODUCTOS DE LA BDD EN EL ARBOL
         private void CargarProductosEnArbol(ArbolBinario arbol)
         {
             using (var contexto = new InventarioDBContext())
             {
-                var productos = contexto.Productos.ToList();
+                var productos = contexto.Productos
+                  .Include(p => p.Categoria)
+                  .Include(p => p.Proveedor)
+                  .ToList();
 
                 foreach (var producto in productos)
                 {
@@ -95,13 +162,12 @@ namespace InventarioPED.Forms
                         producto.Descripcion,
                         producto.Precio,
                         producto.Cantidad,
-                        producto.Categoria,
-                        producto.Proveedor
+                        producto.Categoria.Nombre,
+                        producto.Proveedor.Nombre
                     );
                 }
             }
         }
-
 
         //FUNCION PARA CARGAR LOS DATOS EN EL GRID
         private void CargarDatosEnGrid(ArbolBinario arbol, DataGridView dataGridView)
@@ -157,15 +223,15 @@ namespace InventarioPED.Forms
             }
         }
 
-        //METODO PARA LLENAR EL COMBOBOX CON LAS CATEGORIAS DE LOS PRODUCTOS REGISTRADOS ALMACENADOS EN EL ARBOL
-        private void LlenarComboBoxConCategorias(ArbolBinario arbol, ComboBox comboBox)
+        private void LlenarComboBoxConCategorias(ComboBox comboBox)
         {
-            HashSet<string> categoriasUnicas = new HashSet<string>(); // Evita duplicados
-            ObtenerCategorias(arbol.Raiz, categoriasUnicas);
+            HashSet<string> categorias = ObtenerCategoriasDesdeBD();
 
             comboBox.Items.Clear();
-            comboBox.Items.AddRange(categoriasUnicas.ToArray());
+            comboBox.Items.AddRange(categorias.ToArray());
         }
+
+        
 
         // Método auxiliar para recorrer el árbol y extraer categorías
         private void ObtenerCategorias(Nodo nodo, HashSet<string> lista)
@@ -176,6 +242,206 @@ namespace InventarioPED.Forms
                 ObtenerCategorias(nodo.Izquierdo, lista);
                 ObtenerCategorias(nodo.Derecho, lista);
             }
+        }
+
+        //Metodo para obtener las categorias de la bdd
+        private HashSet<string> ObtenerCategoriasDesdeBD()
+        {
+            HashSet<string> categoriasUnicas = new HashSet<string>();
+
+            using (var contexto = new InventarioDBContext())
+            {
+                var categorias = contexto.Categorias.Select(c => c.Nombre).Distinct().ToList();
+
+                foreach (var categoria in categorias)
+                {
+                    categoriasUnicas.Add(categoria);
+                }
+            }
+
+            return categoriasUnicas;
+        }
+
+        //Metodo para agregar categorias a la BDD
+        public void AgregarCategoria(string nombre)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                Categoria nuevaCategoria = new Categoria
+                {
+                    Nombre = nombre,
+                };
+
+                contexto.Categorias.Add(nuevaCategoria);
+                contexto.SaveChanges();
+                MessageBox.Show($"✅ Categoría '{nombre}' registrada correctamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        //Metodo para eliminar categorias de la BDD
+        public void EliminarCategoria(string nombreCategoria)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                // Buscar la categoría en la BD
+                var categoria = contexto.Categorias.FirstOrDefault(c => c.Nombre == nombreCategoria);
+
+                if (categoria != null)
+                {
+                    contexto.Categorias.Remove(categoria);
+                    contexto.SaveChanges();
+                    Console.WriteLine($"✅ Categoría '{nombreCategoria}' eliminada correctamente.");
+                }
+                else
+                {
+                    Console.WriteLine($"❌ La categoría '{nombreCategoria}' no existe en la BD.");
+                }
+            }
+        }
+
+        //Metodo para eliminar productos de la BDD
+        public void EliminarProducto(string idProd)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                // Buscar la categoría en la BD
+                var producto = contexto.Productos.FirstOrDefault(c => c.Id == idProd);
+
+                if (producto != null)
+                {
+                    contexto.Productos.Remove(producto);
+                    contexto.SaveChanges();
+                    Console.WriteLine($"✅ Producto '{idProd}' eliminado correctamente.");
+                }
+                else
+                {
+                    Console.WriteLine($"❌ Producto '{producto}' no existe en la BD.");
+                }
+            }
+        }
+
+        //Metodo para llenar el comboBox con los proveedores
+        private void LlenarComboBoxConProveedores(ComboBox comboBox)
+        {
+            HashSet<string> proveedores = ObtenerProveedoresDesdeBD();
+
+            comboBox.Items.Clear();
+            comboBox.Items.AddRange(proveedores.ToArray());
+        }
+
+        //Metodo para obtener los proveedores de la bdd
+        private HashSet<string> ObtenerProveedoresDesdeBD()
+        {
+            HashSet<string> proveedores = new HashSet<string>();
+
+            using (var contexto = new InventarioDBContext())
+            {
+                var provs = contexto.Proveedores.Select(c => c.Nombre).Distinct().ToList();
+
+                foreach (var proveedor in provs)
+                {
+                    proveedores.Add(proveedor);
+                }
+            }
+
+            return proveedores;
+        }
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string idProducto = cmbIdProd.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(idProducto))
+            {
+                Nodo producto = arbol.BuscarPorId(idProducto);
+
+                if (producto != null)
+                {
+                    // Modificar datos en el árbol
+                    producto.Nombre = txtProdName.Text.Trim();
+                    producto.Descripcion = txtProdDescrpt.Text.Trim();
+                    producto.Precio = decimal.Parse(txtPrecio.Text);
+                    producto.Cantidad = int.Parse(txtCantidad.Text);
+                    producto.Categoria = cmbCatEditProd.SelectedItem.ToString();
+                    producto.Proveedor = cmbProveedorProdEdit.SelectedItem.ToString();
+
+                    MessageBox.Show($"✅ Producto actualizado en el árbol: {producto.Id}");
+                    ActualizarProductoEnBD(idProducto);
+                }
+                else
+                {
+                    MessageBox.Show("Error: No se encontró el producto en el árbol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Actualizar DataGridView
+                CargarDatosEnGrid(arbol, dataGridView1);
+            }
+        }
+
+        private void ActualizarProductoEnBD(string idProducto)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                var productoBD = contexto.Productos.FirstOrDefault(p => p.Id == idProducto);
+
+                if (productoBD != null)
+                {
+                    productoBD.Nombre = txtProdName.Text.Trim();
+                    productoBD.Descripcion = txtProdDescrpt.Text.Trim();
+                    productoBD.Precio = decimal.Parse(txtPrecio.Text);
+                    productoBD.Cantidad = int.Parse(txtCantidad.Text);
+
+                    // Obtener ID de la categoría y proveedor desde el ComboBox
+                    productoBD.CategoriaId = (int)cmbCatEditProd.SelectedValue;
+                    productoBD.ProveedorId = (int)cmbProdEdit.SelectedValue;
+
+                    contexto.SaveChanges();  // Guarda cambios en la BD
+                    MessageBox.Show($"✅ Producto '{idProducto}' actualizado correctamente.");
+                }
+                else
+                {
+                    MessageBox.Show("❌ Error: El producto no existe en la base de datos.", "Validación");
+                }
+            }
+
+        }
+
+
+
+
+        private void cmbProdEdit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string idSeleccionado = cmbProdEdit.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(idSeleccionado))
+            {
+                Nodo producto = arbol.BuscarPorId(idSeleccionado);
+
+                if (producto != null)
+                {
+                    // Llenar los campos con los datos del producto obtenido del árbol
+                    txtProdName.Text = producto.Nombre;
+                    txtProdDescrpt.Text = producto.Descripcion;
+                    txtPrecio.Text = producto.Precio.ToString();
+                    txtCantidad.Text = producto.Cantidad.ToString();
+                    cmbCatEditProd.SelectedItem = producto.Categoria;
+                    cmbProveedorProdEdit.SelectedItem = producto.Proveedor;
+
+                    LlenarComboBoxConCategorias(cmbCatEditProd);
+                    LlenarComboBoxConProveedores(cmbProveedorProdEdit);
+
+                }
+                else
+                {
+                    MessageBox.Show("Producto no encontrado en el árbol.", "Error");
+                }
+            }
+
         }
     }
 }

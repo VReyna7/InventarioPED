@@ -136,15 +136,20 @@ namespace InventarioPED
 
                 foreach (var producto in productos)
                 {
-                    arbol.Insertar(
-                        producto.Id,
-                        producto.Nombre,
-                        producto.Descripcion,
-                        producto.Precio,
-                        producto.Cantidad,
-                        producto.Categoria.Nombre,
-                        producto.Proveedor.Nombre
-                    );
+                    // Verificar si el ID ya existe en el árbol antes de insertarlo
+                    if (arbol.BuscarPorId(producto.Id) == null)
+                    {
+                        arbol.Insertar(
+                            producto.Id,
+                            producto.Nombre,
+                            producto.Descripcion,
+                            producto.Precio,
+                            producto.Cantidad,
+                            producto.Categoria.Nombre,
+                            producto.Proveedor.Nombre
+                        );
+                    }
+
                 }
             }
         }

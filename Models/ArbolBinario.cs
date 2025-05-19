@@ -73,21 +73,6 @@ namespace InventarioPED.Models
             }
         }
 
-
-        //BUSQUEDA POR NOMBRE
-        /*public Nodo Buscar(string nombre)
-        {
-            return BuscarRecursivo(Raiz, nombre);
-        }
-
-        private Nodo BuscarRecursivo(Nodo nodo, string nombre)
-        {
-            if (nodo == null || nodo.Nombre == nombre)
-                return nodo;
-
-            return string.Compare(nombre, nodo.Nombre) < 0 ? BuscarRecursivo(nodo.Izquierdo, nombre) : BuscarRecursivo(nodo.Derecho, nombre);
-        }*/
-
         //--------------------------------------------------------------------
         public void RecorridoEnOrden(List<Nodo> lista)
         {
@@ -102,6 +87,12 @@ namespace InventarioPED.Models
                 lista.Add(nodo);
                 RecorridoEnOrdenRecursivo(nodo.Derecho, lista);
             }
+        }
+
+        public void LimpiarArbol()
+        {
+            Raiz = null;
+            Console.WriteLine("✅ El árbol binario ha sido limpiado correctamente.");
         }
     }
 }
