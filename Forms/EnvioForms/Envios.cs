@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using InventarioPED.Forms.Envio;
+using InventarioPED.Forms.EnvioForms;
 
-namespace InventarioPED.Forms
+namespace InventarioPED.Forms.EnvioForms
 {
     public partial class Envios : Form
     {
@@ -20,7 +20,7 @@ namespace InventarioPED.Forms
 
         private void ToolStripMain_Click(object sender, EventArgs e)
         {
-            AbrirFormularioEnPanel(new AgregarEnvio());
+            AbrirFormularioEnPanel(new EnvioAdministracion());
         }
 
         private void AbrirFormularioEnPanel(Form formHijo)
@@ -33,6 +33,16 @@ namespace InventarioPED.Forms
 
             panelContenedorEnvio.Controls.Add(formHijo);
             formHijo.Show();
+        }
+
+        private void ToolStripAgregar_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioEnPanel(new AgregarEnvio());
+        }
+
+        private void Envios_Load(object sender, EventArgs e)
+        {
+            AbrirFormularioEnPanel(new EnvioAdministracion());
         }
     }
 }

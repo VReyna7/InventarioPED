@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InventarioPED.Models
 {
-    internal class Prioridad
+    public class Prioridad
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

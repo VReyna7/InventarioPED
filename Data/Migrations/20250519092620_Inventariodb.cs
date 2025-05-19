@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventarioPED.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InventarioDB : Migration
+    public partial class Inventariodb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,8 +69,7 @@ namespace InventarioPED.Data.Migrations
                 name: "Envios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Peso = table.Column<float>(type: "real", nullable: false),
@@ -173,6 +172,16 @@ namespace InventarioPED.Data.Migrations
                     { 8, "SmartComponentes" },
                     { 9, "SoftWareHouse Corp." },
                     { 10, "GamingPro Distribuciones" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Envios",
+                columns: new[] { "Id", "Direccion", "EstadoId", "Nombre", "Peso", "PrioridadId" },
+                values: new object[,]
+                {
+                    { "ENV2025001", "Av. Reforma 123, Ciudad de México", 2, "Juan Pérez", 2.5f, 1 },
+                    { "ENV2025002", "Calle Juárez 456, Guadalajara", 3, "María López", 1.2f, 2 },
+                    { "ENV2025003", "Blvd. Independencia 789, Monterrey", 1, "Carlos García", 3.7f, 3 }
                 });
 
             migrationBuilder.InsertData(

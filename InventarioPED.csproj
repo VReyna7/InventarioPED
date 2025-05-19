@@ -10,8 +10,11 @@
 
   <ItemGroup>
     <Compile Remove="NewFolder1\**" />
+    <Compile Remove="Resources\**" />
     <EmbeddedResource Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="NewFolder1\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>

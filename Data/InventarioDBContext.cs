@@ -159,6 +159,36 @@ namespace InventarioPED.Data
                 new Proveedor { Id = 10, Nombre = "GamingPro Distribuciones" }
 
             );
+
+            modelBuilder.Entity<Envio>().HasData(
+                new Envio
+                {
+                    Id = "ENV2025001",
+                    Nombre = "Juan Pérez",
+                    Direccion = "Av. Reforma 123, Ciudad de México",
+                    Peso = 2.5f,
+                    EstadoId = 2,       // En Proceso
+                    PrioridadId = 1     // Alta
+                },
+                new Envio
+                {
+                    Id = "ENV2025002",
+                    Nombre = "María López",
+                    Direccion = "Calle Juárez 456, Guadalajara",
+                    Peso = 1.2f,
+                    EstadoId = 3,       // Completado
+                    PrioridadId = 2     // Media
+                },
+                new Envio
+                {
+                    Id = "ENV2025003",
+                    Nombre = "Carlos García",
+                    Direccion = "Blvd. Independencia 789, Monterrey",
+                    Peso = 3.7f,
+                    EstadoId = 1,       // Pendiente
+                    PrioridadId = 3     // Baja
+                }
+            );
         }
     }
 }

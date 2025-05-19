@@ -40,8 +40,9 @@
             // 
             toolStrip1.Dock = DockStyle.None;
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripAgregarProducto, toolStripSeparator1, toolTipEnvio });
-            toolStrip1.Location = new Point(9, 22);
+            toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
+            toolStrip1.RenderMode = ToolStripRenderMode.Professional;
             toolStrip1.Size = new Size(120, 25);
             toolStrip1.TabIndex = 0;
             // 
@@ -66,16 +67,17 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Location = new Point(9, 50);
+            panelContenedor.Location = new Point(12, 28);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(1066, 474);
+            panelContenedor.Size = new Size(1411, 505);
             panelContenedor.TabIndex = 1;
+            panelContenedor.Paint += panelContenedor_Paint;
             // 
             // Menu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1087, 642);
+            ClientSize = new Size(1436, 550);
             Controls.Add(panelContenedor);
             Controls.Add(toolStrip1);
             Name = "Menu";

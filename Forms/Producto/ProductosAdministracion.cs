@@ -14,10 +14,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InventarioPED.Forms
 {
-    public partial class Productos : Form
+    public partial class ProductosAdministracion : Form
     {
         private ArbolBinario arbol = new ArbolBinario();
-        public Productos()
+        public ProductosAdministracion()
         {
             InitializeComponent();
         }
@@ -125,7 +125,6 @@ namespace InventarioPED.Forms
                 EliminarProducto(idProducto);
 
                 //LIMPIANDO ARBOL Y GRID
-                arbol.LimpiarArbol();
                 dataGridView1.Rows.Clear(); // También vacía el DataGridView
 
                 //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV

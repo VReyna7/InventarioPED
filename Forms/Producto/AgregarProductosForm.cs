@@ -89,7 +89,7 @@ namespace InventarioPED
 
             if (cmbCategoria.Items.Count > 0)
                 cmbCategoria.SelectedIndex = 0;
-            
+
             txtNombre.Focus(); // Vuelve a enfocar al primer campo
         }
 
@@ -154,5 +154,9 @@ namespace InventarioPED
             }
         }
 
+        private void ToolStripAgregarProducto_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

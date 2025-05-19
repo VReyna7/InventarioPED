@@ -8,13 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace InventarioPED.Forms.Envio
+namespace InventarioPED.Forms.EnvioForms
 {
-    public partial class AgregarEnvio : Form
+    public partial class EnvioAdministracion : Form
     {
-        public AgregarEnvio()
+        public EnvioAdministracion()
         {
             InitializeComponent();
+        }
+
+      
+
+        private void EnvioAdministracion_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }

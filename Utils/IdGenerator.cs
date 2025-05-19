@@ -29,5 +29,26 @@ namespace InventarioPED.Utils
 
             return $"{prefijo}{nuevoNumero}";
         }
+
+        public static string GenerarEnvio(InventarioDBContext context)
+        {
+            int año = DateTime.Now.Year;
+            string prefijo = $"ENV{año}";
+
+            var ultimoId = context.Envios
+                .Where(p => p.Id.StartsWith(prefijo))
+                .OrderByDescending(p => p.Id)
+                .Select(p => p.Id)
+                .FirstOrDefault();
+
+            int nuevoNumero = 1;
+
+            if (!string.IsNullOrEmpty(ultimoId) && int.TryParse(ultimoId.Substring(prefijo.Length), out int ultimoNumero))
+            {
+                nuevoNumero = ultimoNumero + 1;
+            }
+
+            return $"{prefijo}{nuevoNumero}";
+        }
     }
 }

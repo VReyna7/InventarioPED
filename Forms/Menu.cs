@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using InventarioPED.Forms.EnvioForms;
+using InventarioPED.Forms.Producto;
 
 namespace InventarioPED.Forms
 {
@@ -31,17 +33,22 @@ namespace InventarioPED.Forms
 
         private void toolStripAgregarProducto_Click(object sender, EventArgs e)
         {
-            AbrirFormularioEnPanel(new AgregarProductosForm());
+            AbrirFormularioEnPanel(new ProductosForm());
         }
 
         private void Menu_Load(object sender, EventArgs e)
         {
-            AbrirFormularioEnPanel(new AgregarProductosForm());
+            AbrirFormularioEnPanel(new ProductosForm());
         }
 
         private void toolTipEnvio_Click(object sender, EventArgs e)
         {
             AbrirFormularioEnPanel(new Envios());
+        }
+
+        private void panelContenedor_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

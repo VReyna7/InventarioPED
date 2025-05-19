@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventarioPED.Data.Migrations
 {
     [DbContext(typeof(InventarioDBContext))]
-    [Migration("20250518225932_InventarioDB")]
-    partial class InventarioDB
+    [Migration("20250519092620_Inventariodb")]
+    partial class Inventariodb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,11 +81,8 @@ namespace InventarioPED.Data.Migrations
 
             modelBuilder.Entity("InventarioPED.Models.Envio", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Direccion")
                         .IsRequired()
@@ -111,6 +108,35 @@ namespace InventarioPED.Data.Migrations
                     b.HasIndex("PrioridadId");
 
                     b.ToTable("Envios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ENV2025001",
+                            Direccion = "Av. Reforma 123, Ciudad de México",
+                            EstadoId = 2,
+                            Nombre = "Juan Pérez",
+                            Peso = 2.5f,
+                            PrioridadId = 1
+                        },
+                        new
+                        {
+                            Id = "ENV2025002",
+                            Direccion = "Calle Juárez 456, Guadalajara",
+                            EstadoId = 3,
+                            Nombre = "María López",
+                            Peso = 1.2f,
+                            PrioridadId = 2
+                        },
+                        new
+                        {
+                            Id = "ENV2025003",
+                            Direccion = "Blvd. Independencia 789, Monterrey",
+                            EstadoId = 1,
+                            Nombre = "Carlos García",
+                            Peso = 3.7f,
+                            PrioridadId = 3
+                        });
                 });
 
             modelBuilder.Entity("InventarioPED.Models.Estado", b =>

@@ -1,6 +1,6 @@
 ﻿namespace InventarioPED.Forms
 {
-    partial class Productos
+    partial class ProductosAdministracion
     {
         /// <summary>
         /// Required designer variable.
@@ -46,7 +46,6 @@
             cmbCatProd = new ComboBox();
             label4 = new Label();
             button5 = new Button();
-            button6 = new Button();
             groupBox5 = new GroupBox();
             groupBox6 = new GroupBox();
             btnElimCat = new Button();
@@ -253,15 +252,6 @@
             button5.Text = "Vista General de Productos";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
-            // 
-            // button6
-            // 
-            button6.Location = new Point(15, 418);
-            button6.Name = "button6";
-            button6.Size = new Size(264, 48);
-            button6.TabIndex = 6;
-            button6.Text = "Volver al Menu Principal";
-            button6.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -470,7 +460,7 @@
             label6.TabIndex = 0;
             label6.Text = "ID:";
             // 
-            // Productos
+            // ProductosAdministracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -478,12 +468,11 @@
             Controls.Add(groupBox7);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
-            Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "Productos";
+            Name = "ProductosAdministracion";
             Text = "Productos";
             Load += Productos_Load;
             groupBox1.ResumeLayout(false);
@@ -522,7 +511,6 @@
         private ComboBox cmbCatProd;
         private Label label4;
         private Button button5;
-        private Button button6;
         private GroupBox groupBox5;
         private GroupBox groupBox6;
         private Button btnElimCat;
