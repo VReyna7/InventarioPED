@@ -136,8 +136,69 @@ namespace InventarioPED.Forms
                 LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
             }
         }
+        private void cmbProdEdit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string idSeleccionado = cmbProdEdit.Text;
 
+            if (!string.IsNullOrEmpty(idSeleccionado))
+            {
+                Nodo producto = arbol.BuscarPorId(idSeleccionado);
 
+                if (producto != null)
+                {
+                    // Llenar los campos con los datos del producto obtenido del árbol
+                    txtProdName.Text = producto.Nombre;
+                    txtProdDescrpt.Text = producto.Descripcion;
+                    txtPrecio.Text = producto.Precio.ToString();
+                    txtCantidad.Text = producto.Cantidad.ToString();
+                    cmbCatEditProd.SelectedItem = producto.Categoria;
+                    cmbProveedorProdEdit.SelectedItem = producto.Proveedor;
+
+                    //LlenarComboBoxConCategorias(cmbCatEditProd);
+                    //LlenarComboBoxConProveedores(cmbProveedorProdEdit);
+
+                    CargarCategoriasCmbs(cmbCatEditProd);
+                    CargarProveedoresCmbs(cmbProveedorProdEdit);
+                }
+                else
+                {
+                    MessageBox.Show("Producto no encontrado en el árbol.", "Error");
+                }
+            }
+
+        }
+
+        private void btnEditProd_Click(object sender, EventArgs e)
+        {
+            string idProducto = cmbProdEdit.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(idProducto))
+            {
+                Nodo producto = arbol.BuscarPorId(idProducto);
+
+                if (producto != null)
+                {
+                    // Modificar datos en el árbol
+                    producto.Nombre = txtProdName.Text.Trim();
+                    producto.Descripcion = txtProdDescrpt.Text.Trim();
+                    producto.Precio = decimal.Parse(txtPrecio.Text);
+                    producto.Cantidad = int.Parse(txtCantidad.Text);
+                    producto.Categoria = cmbCatEditProd.SelectedItem.ToString();
+                    producto.Proveedor = cmbProveedorProdEdit.SelectedItem.ToString();
+
+                    MessageBox.Show($"✅ Producto actualizado en el árbol: {producto.Id}");
+                    ActualizarProductoEnBD(idProducto);
+                }
+                else
+                {
+                    MessageBox.Show("Error: No se encontró el producto en el árbol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Actualizar DataGridView
+                CargarDatosEnGrid(arbol, dataGridView1);
+            }
+        }
 
 
 
@@ -164,6 +225,32 @@ namespace InventarioPED.Forms
                         producto.Categoria.Nombre,
                         producto.Proveedor.Nombre
                     );
+                }
+            }
+        }
+
+        //METODO PARA CARGAR LAS CATEGORIAS DE LA BDD EN ORDEN PARA LOS CMB (SE USA EN LA EDICION DE PROD)
+        public void CargarCategoriasCmbs(ComboBox cmb)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                var categorias = contexto.Categorias.ToList();
+                foreach (var categoria in categorias)
+                {
+                    cmb.Items.Add(categoria.Nombre);
+                }
+            }
+        }
+
+        //METODO PARA CARGAR LOS PROVEEDORES DE LA BDD EN ORDEN PARA LOS CMB (SE USA EN LA EDICION DE PROD)
+        public void CargarProveedoresCmbs(ComboBox cmb)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                var proveedores = contexto.Proveedores.ToList();
+                foreach (var proveedor in proveedores)
+                {
+                    cmb.Items.Add(proveedor.Nombre);
                 }
             }
         }
@@ -229,8 +316,6 @@ namespace InventarioPED.Forms
             comboBox.Items.Clear();
             comboBox.Items.AddRange(categorias.ToArray());
         }
-
-        
 
         // Método auxiliar para recorrer el árbol y extraer categorías
         private void ObtenerCategorias(Nodo nodo, HashSet<string> lista)
@@ -345,42 +430,6 @@ namespace InventarioPED.Forms
 
             return proveedores;
         }
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            string idProducto = cmbIdProd.SelectedItem?.ToString();
-
-            if (!string.IsNullOrEmpty(idProducto))
-            {
-                Nodo producto = arbol.BuscarPorId(idProducto);
-
-                if (producto != null)
-                {
-                    // Modificar datos en el árbol
-                    producto.Nombre = txtProdName.Text.Trim();
-                    producto.Descripcion = txtProdDescrpt.Text.Trim();
-                    producto.Precio = decimal.Parse(txtPrecio.Text);
-                    producto.Cantidad = int.Parse(txtCantidad.Text);
-                    producto.Categoria = cmbCatEditProd.SelectedItem.ToString();
-                    producto.Proveedor = cmbProveedorProdEdit.SelectedItem.ToString();
-
-                    MessageBox.Show($"✅ Producto actualizado en el árbol: {producto.Id}");
-                    ActualizarProductoEnBD(idProducto);
-                }
-                else
-                {
-                    MessageBox.Show("Error: No se encontró el producto en el árbol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Actualizar DataGridView
-                CargarDatosEnGrid(arbol, dataGridView1);
-            }
-        }
 
         private void ActualizarProductoEnBD(string idProducto)
         {
@@ -396,8 +445,8 @@ namespace InventarioPED.Forms
                     productoBD.Cantidad = int.Parse(txtCantidad.Text);
 
                     // Obtener ID de la categoría y proveedor desde el ComboBox
-                    productoBD.CategoriaId = (int)cmbCatEditProd.SelectedValue;
-                    productoBD.ProveedorId = (int)cmbProdEdit.SelectedValue;
+                    productoBD.CategoriaId = cmbCatEditProd.SelectedIndex+1;
+                    productoBD.ProveedorId = cmbProveedorProdEdit.SelectedIndex+1;
 
                     contexto.SaveChanges();  // Guarda cambios en la BD
                     MessageBox.Show($"✅ Producto '{idProducto}' actualizado correctamente.");
@@ -410,37 +459,5 @@ namespace InventarioPED.Forms
 
         }
 
-
-
-
-        private void cmbProdEdit_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string idSeleccionado = cmbProdEdit.SelectedItem?.ToString();
-
-            if (!string.IsNullOrEmpty(idSeleccionado))
-            {
-                Nodo producto = arbol.BuscarPorId(idSeleccionado);
-
-                if (producto != null)
-                {
-                    // Llenar los campos con los datos del producto obtenido del árbol
-                    txtProdName.Text = producto.Nombre;
-                    txtProdDescrpt.Text = producto.Descripcion;
-                    txtPrecio.Text = producto.Precio.ToString();
-                    txtCantidad.Text = producto.Cantidad.ToString();
-                    cmbCatEditProd.SelectedItem = producto.Categoria;
-                    cmbProveedorProdEdit.SelectedItem = producto.Proveedor;
-
-                    LlenarComboBoxConCategorias(cmbCatEditProd);
-                    LlenarComboBoxConProveedores(cmbProveedorProdEdit);
-
-                }
-                else
-                {
-                    MessageBox.Show("Producto no encontrado en el árbol.", "Error");
-                }
-            }
-
-        }
     }
 }

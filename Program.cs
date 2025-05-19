@@ -14,6 +14,7 @@ namespace InventarioPED
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new AgregarProductosForm());
+            //Application.Run(new ProductosAdministracion());
             Application.Run(new Menu());
         }
     }
