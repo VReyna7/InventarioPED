@@ -4,6 +4,7 @@ using InventarioPED.Services;
 using InventarioPED.Utils;
 using System.Windows.Forms;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace InventarioPED
@@ -24,6 +25,20 @@ namespace InventarioPED
             // Cargar productos desde la base de datos
             CargarProductosDesdeBD(arbol);
 
+            var categoriaService = new CategoriaService();
+            var categorias = categoriaService.ObtenerTodas();
+
+            cmbCategoria.DataSource = categorias;
+            cmbCategoria.DisplayMember = "Nombre";
+            cmbCategoria.ValueMember = "Id";
+
+            var proveedorService = new ProveedorService();
+            var proveedores = proveedorService.ObtenerTodos();
+
+            cmbProveedor.DataSource = proveedores;
+            cmbProveedor.DisplayMember = "Nombre";
+            cmbProveedor.ValueMember = "Id";
+
             if (arbol.Raiz == null)
             {
                 MessageBox.Show("El árbol binario está vacío después de cargar los datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -42,8 +57,8 @@ namespace InventarioPED
                 Descripcion = txtDescripcion.Text.Trim(),
                 Precio = decimal.Parse(txtPrecio.Text),
                 Cantidad = int.Parse(txtCantidad.Text),
-                Categoria = cmbCategoria.SelectedItem?.ToString(),
-                Proveedor = txtProveedor.Text.Trim()
+                CategoriaId = (int)cmbCategoria.SelectedValue,
+                ProveedorId = (int)cmbProveedor.SelectedValue
             };
 
             var service = new ProductoService();
@@ -68,15 +83,13 @@ namespace InventarioPED
             txtDescripcion.Clear();
             txtPrecio.Clear();
             txtCantidad.Clear();
-            txtProveedor.Clear();
 
-            // Restablece el ComboBox a la primera opción
+            if (cmbProveedor.Items.Count > 0)
+                cmbProveedor.SelectedIndex = 0;
+
             if (cmbCategoria.Items.Count > 0)
                 cmbCategoria.SelectedIndex = 0;
-
-            // if (cmbProveedor.Items.Count > 0)
-            //     cmbProveedor.SelectedIndex = 0;
-
+            
             txtNombre.Focus(); // Vuelve a enfocar al primer campo
         }
 
@@ -116,7 +129,10 @@ namespace InventarioPED
         {
             using (var contexto = new InventarioDBContext())
             {
-                var productos = contexto.Productos.ToList();
+                var productos = contexto.Productos
+                .Include(p => p.Categoria)
+                .Include(p => p.Proveedor)
+                .ToList();
 
                 foreach (var producto in productos)
                 {
@@ -126,8 +142,8 @@ namespace InventarioPED
                         producto.Descripcion,
                         producto.Precio,
                         producto.Cantidad,
-                        producto.Categoria,
-                        producto.Proveedor
+                        producto.Categoria.Nombre,
+                        producto.Proveedor.Nombre
                     );
                 }
             }

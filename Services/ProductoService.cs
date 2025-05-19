@@ -15,12 +15,6 @@ namespace InventarioPED.Services
         {
             using var context = new InventarioDBContext();
 
-            if (string.IsNullOrWhiteSpace(producto.Nombre))
-                return "El nombre es obligatorio.";
-
-            if (string.IsNullOrWhiteSpace(producto.Categoria))
-                return "La categoría es obligatoria.";
-
             producto.Id = IdGenerator.GenerarIdProducto(context);
             producto.FechaCreacion = DateTime.Now;
 

@@ -22,6 +22,60 @@ namespace InventarioPED.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("InventarioPED.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Computadoras y Laptops"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Periféricos"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Monitores y Pantallas"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "Almacenamiento"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "Conectividad"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nombre = "Impresoras"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Nombre = "Monitores"
+                        });
+                });
+
             modelBuilder.Entity("InventarioPED.Models.Envio", b =>
                 {
                     b.Property<int>("Id")
@@ -132,9 +186,8 @@ namespace InventarioPED.Data.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
-                    b.Property<string>("Categoria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -150,11 +203,14 @@ namespace InventarioPED.Data.Migrations
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Proveedor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("ProveedorId");
 
                     b.ToTable("Productos");
 
@@ -163,23 +219,92 @@ namespace InventarioPED.Data.Migrations
                         {
                             Id = "PROD20251",
                             Cantidad = 20,
-                            Categoria = "Tecnologia",
+                            CategoriaId = 1,
                             Descripcion = "Computadora para el uso diario",
                             FechaCreacion = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Computaddora",
                             Precio = 150.2m,
-                            Proveedor = "Mamam"
+                            ProveedorId = 2
                         },
                         new
                         {
                             Id = "PROD20252",
                             Cantidad = 10,
-                            Categoria = "Tecnologia",
+                            CategoriaId = 1,
                             Descripcion = "Ups forza",
                             FechaCreacion = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "UPS FORZA",
                             Precio = 120.0m,
-                            Proveedor = "Nnasd"
+                            ProveedorId = 2
+                        });
+                });
+
+            modelBuilder.Entity("InventarioPED.Models.Proveedor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proveedores");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "TechGlobal S.A."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "InnovaTech Solutions"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Hardware Express"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "CompuCentro Mayorista"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "RedNet Distribuciones"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nombre = "Digital Zone Ltd."
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Nombre = "PeriTech MX"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Nombre = "SmartComponentes"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Nombre = "SoftWareHouse Corp."
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Nombre = "GamingPro Distribuciones"
                         });
                 });
 
@@ -200,6 +325,35 @@ namespace InventarioPED.Data.Migrations
                     b.Navigation("Estado");
 
                     b.Navigation("Prioridad");
+                });
+
+            modelBuilder.Entity("InventarioPED.Models.Producto", b =>
+                {
+                    b.HasOne("InventarioPED.Models.Categoria", "Categoria")
+                        .WithMany("Productos")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventarioPED.Models.Proveedor", "Proveedor")
+                        .WithMany("Productos")
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Proveedor");
+                });
+
+            modelBuilder.Entity("InventarioPED.Models.Categoria", b =>
+                {
+                    b.Navigation("Productos");
+                });
+
+            modelBuilder.Entity("InventarioPED.Models.Proveedor", b =>
+                {
+                    b.Navigation("Productos");
                 });
 #pragma warning restore 612, 618
         }
