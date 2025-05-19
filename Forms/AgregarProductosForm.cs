@@ -10,6 +10,8 @@ namespace InventarioPED
 {
     public partial class AgregarProductosForm : Form
     {
+        ArbolBinario arbol = new ArbolBinario();
+
         public AgregarProductosForm()
         {
             InitializeComponent();
@@ -17,8 +19,6 @@ namespace InventarioPED
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ArbolBinario arbol = new ArbolBinario();
-
             ConfigurarDataGridView(dgvUltimosProductos);
 
             // Cargar productos desde la base de datos
@@ -36,8 +36,6 @@ namespace InventarioPED
 
         private async void BtnAgregar_ClickAsync(object sender, EventArgs e)
         {
-            ArbolBinario arbol = new ArbolBinario();
-
             var producto = new Producto
             {
                 Nombre = txtNombre.Text.Trim(),
