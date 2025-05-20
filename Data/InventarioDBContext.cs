@@ -163,7 +163,7 @@ namespace InventarioPED.Data
             modelBuilder.Entity<Envio>().HasData(
                 new Envio
                 {
-                    Id = "ENV2025001",
+                    Id = "ENV20251",
                     Nombre = "Juan Pérez",
                     Direccion = "Av. Reforma 123, Ciudad de México",
                     Peso = 2.5f,
@@ -172,7 +172,7 @@ namespace InventarioPED.Data
                 },
                 new Envio
                 {
-                    Id = "ENV2025002",
+                    Id = "ENV20252",
                     Nombre = "María López",
                     Direccion = "Calle Juárez 456, Guadalajara",
                     Peso = 1.2f,
@@ -181,7 +181,7 @@ namespace InventarioPED.Data
                 },
                 new Envio
                 {
-                    Id = "ENV2025003",
+                    Id = "ENV20253",
                     Nombre = "Carlos García",
                     Direccion = "Blvd. Independencia 789, Monterrey",
                     Peso = 3.7f,

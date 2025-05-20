@@ -18,14 +18,14 @@ namespace InventarioPED.Models
         public NodoEnvio Izquierdo { get; set; }
         public NodoEnvio Derecho { get; set; }
 
-        public NodoEnvio(string id, string nombre, string direccion, float peso, string estado, string prioridad)
+        public NodoEnvio(string id, string nombre, string direccion, float peso, string prioridad, string estado )
         {
             Id = id;
             Nombre = nombre;
             Direccion = direccion;
             Peso = peso;
-            Estado = estado;
             Prioridad = prioridad;
+            Estado = estado;
             Izquierdo = null;
             Derecho = null;
         }

@@ -53,30 +53,71 @@ namespace InventarioPED.Models
             return string.Compare(id, nodo.Id) < 0 ? BuscarRecursivo(nodo.Izquierdo, id) : BuscarRecursivo(nodo.Derecho, id);
         }
 
-        //BUSQUEDA POR CATEGORIA
-
-        /*
-        public List<NodoEnvio> BuscarPorCategoria(string categoria)
+        
+        public List<NodoEnvio> BuscarPorEstado(string estado)
         {
             List<NodoEnvio> resultados = new List<NodoEnvio>();
-            BuscarCategoriaRecursivo(Raiz, categoria, resultados);
+            BuscarEstadoRecursivo(Raiz, estado, resultados);
             return resultados;
         }
-        */
 
-        /*
-        private void BuscarCategoriaRecursivo(NodoEnvio nodo, string categoria, List<NodoEnvio> resultados)
+        public List<NodoEnvio> BuscarPorPrioridad(string prioridad)
         {
+            List<NodoEnvio> resultados = new List<NodoEnvio>();
+            BuscarPrioridadRecursivo(Raiz, prioridad, resultados);
+            return resultados;
+        }
+
+
+        private void BuscarEstadoRecursivo(NodoEnvio nodo, string estado, List<NodoEnvio> resultados)
+        {
+            //MessageBox.Show($"Buscando en nodo: {nodo?.Id} con estado: {estado}", "Buscar Estado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (nodo != null)
             {
-                if (nodo.Categoria.Equals(categoria, StringComparison.OrdinalIgnoreCase))
-                    resultados.Add(nodo);
+                /*if (nodo.Estado.Equals(estado, StringComparison.OrdinalIgnoreCase))
+                    resultados.Add(nodo);*/
 
-                BuscarCategoriaRecursivo(nodo.Izquierdo, categoria, resultados);
-                BuscarCategoriaRecursivo(nodo.Derecho, categoria, resultados);
+                if (!string.IsNullOrEmpty(nodo.Estado))
+                {
+                    if (nodo.Estado.Trim().Equals(estado.Trim(), StringComparison.OrdinalIgnoreCase))
+                        resultados.Add(nodo);
+                }
+                else
+                {
+                    MessageBox.Show($"Nodo {nodo.Id} tiene estado nulo o vacío");
+                }
+
+
+                BuscarEstadoRecursivo(nodo.Izquierdo, estado, resultados);
+                BuscarEstadoRecursivo(nodo.Derecho, estado, resultados);
             }
         }
-        */
+
+
+        private void BuscarPrioridadRecursivo(NodoEnvio nodo, string prioridad, List<NodoEnvio> resultados)
+        {
+            //MessageBox.Show($"Buscando en nodo: {nodo?.Id} con estado: {estado}", "Buscar Estado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (nodo != null)
+            {
+                /*if (nodo.Estado.Equals(estado, StringComparison.OrdinalIgnoreCase))
+                    resultados.Add(nodo);*/
+
+                if (!string.IsNullOrEmpty(nodo.Prioridad))
+                {
+                    if (nodo.Prioridad.Trim().Equals(prioridad.Trim(), StringComparison.OrdinalIgnoreCase))
+                        resultados.Add(nodo);
+                }
+                else
+                {
+                    MessageBox.Show($"Nodo {nodo.Id} tiene estado nulo o vacío");
+                }
+
+
+                BuscarPrioridadRecursivo(nodo.Izquierdo, prioridad, resultados);
+                BuscarPrioridadRecursivo(nodo.Derecho, prioridad, resultados);
+            }
+        }
+
 
         public void RecorridoEnOrden(List<NodoEnvio> lista)
         {

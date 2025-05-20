@@ -146,6 +146,11 @@ namespace InventarioPED.Forms
 
                 if (producto != null)
                 {
+                    cmbCatEditProd.Items.Clear();
+                    cmbProveedorProdEdit.Items.Clear();
+                    CargarCategoriasCmbs(cmbCatEditProd);
+                    CargarProveedoresCmbs(cmbProveedorProdEdit);
+                
                     // Llenar los campos con los datos del producto obtenido del árbol
                     txtProdName.Text = producto.Nombre;
                     txtProdDescrpt.Text = producto.Descripcion;
@@ -153,12 +158,7 @@ namespace InventarioPED.Forms
                     txtCantidad.Text = producto.Cantidad.ToString();
                     cmbCatEditProd.SelectedItem = producto.Categoria;
                     cmbProveedorProdEdit.SelectedItem = producto.Proveedor;
-
-                    //LlenarComboBoxConCategorias(cmbCatEditProd);
-                    //LlenarComboBoxConProveedores(cmbProveedorProdEdit);
-
-                    CargarCategoriasCmbs(cmbCatEditProd);
-                    CargarProveedoresCmbs(cmbProveedorProdEdit);
+                    
                 }
                 else
                 {
