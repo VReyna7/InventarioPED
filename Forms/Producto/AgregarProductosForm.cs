@@ -158,5 +158,43 @@ namespace InventarioPED
         {
 
         }
+
+        private void btnAgregarProv_Click(object sender, EventArgs e)
+        {
+            string proveedor = txtProveedor.Text;
+            if(proveedor.Length > 0)
+            {
+                AgregarProveedor(proveedor);
+                txtProveedor.Text = "";
+
+                var proveedorService = new ProveedorService();
+                var proveedores = proveedorService.ObtenerTodos();
+
+                cmbProveedor.DataSource = proveedores;
+                cmbProveedor.DisplayMember = "Nombre";
+                cmbProveedor.ValueMember = "Id";
+
+            }
+            
+            
+        }
+
+        //METODO PARA AGREGAR UN NUEVO PROVEEDOR
+        public void AgregarProveedor(string proveedor)
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                Proveedor nuevaProveedor = new Proveedor
+                {
+                    Nombre = proveedor,
+                };
+
+                contexto.Proveedores.Add(nuevaProveedor);
+                contexto.SaveChanges();
+                MessageBox.Show($"✅ Proveedor '{proveedor}' registrada correctamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+       
     }
 }

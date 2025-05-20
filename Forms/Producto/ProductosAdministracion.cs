@@ -1,5 +1,6 @@
 ﻿using InventarioPED.Data;
 using InventarioPED.Models;
+using InventarioPED.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InventarioPED.Forms
 {
@@ -22,26 +22,29 @@ namespace InventarioPED.Forms
             InitializeComponent();
         }
 
+        //FUNCION PARA INICIALIZAR LA CARGA DE TODOS LOS ELEMENTOS
         private void Productos_Load(object sender, EventArgs e)
         {
+            //COLOCA LOS CAMPOS PARA ALMACENAR CORRECTAMENTE LOS DATOS DE LOS PRODUCTOS
             ConfigurarDataGridView(dataGridView1);
 
-            // Cargar los productos en el árbol desde la BD (solo una vez)
+            //CARGA LOS PRODUCTOS ALMACENADOS DE LA BDD EN EL ARBOL
             CargarProductosEnArbol(arbol);
 
-            // Mostrar en DataGridView
+            //CARGA LOS DATOS ALMACENADOS EN EL ARBOL EN EL GRID
             CargarDatosEnGrid(arbol, dataGridView1);
 
-            // Llenar el ComboBox con los IDs de los productos registrados
+            //LLENA LOS COMBOBOX CON LOS IDS DE LOS PRODUCTOS
             LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
             LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
             LlenarComboBoxDesdeArbol(arbol, cmbProdEdit);
 
-            // Llenar el ComboBox con las categorias
+            //LLENA LOS COMBOBOX CON LAS CATEGORIAS
             LlenarComboBoxConCategorias(cmbCatProd);
             LlenarComboBoxConCategorias(cmbCatElim);
         }
-
+        
+        //BOTON QUE FILTRA POR ID DE PRODUCTO
         private void btnBusquedaId_Click(object sender, EventArgs e)
         {
             string idBuscado = cmbIdProd.Text;
@@ -59,6 +62,7 @@ namespace InventarioPED.Forms
 
         }
 
+        //BOTON QUE FILTRA PRODUCTOS POR CATEGORIA
         private void btnBusquedaCategoria_Click(object sender, EventArgs e)
         {
             string categoriaBuscada = cmbCatProd.Text;
@@ -78,12 +82,14 @@ namespace InventarioPED.Forms
             }
         }
 
+        //BOTON QUE REINICIA EL GRID Y MUESTRA TODOS LOS DATOS ALMACENADOS EN EL ARBOL
         private void button5_Click(object sender, EventArgs e)
         {
             // Mostrar en DataGridView
             CargarDatosEnGrid(arbol, dataGridView1);
         }
 
+        //BOTON PARA AGREGAR UNA CATEGORIA
         private void button1_Click(object sender, EventArgs e)
         {
             string categoria = txtCategoria.Text;
@@ -93,6 +99,7 @@ namespace InventarioPED.Forms
             LlenarComboBoxConCategorias(cmbCatElim);
         }
 
+        //BOTON PARA ELIMINAR UNA CATEGORIA
         private void btnElimCat_Click(object sender, EventArgs e)
         {
             string categoria = cmbCatElim.Text;
@@ -112,6 +119,7 @@ namespace InventarioPED.Forms
             }
         }
 
+        //BOTON PARA ELIMINAR PRODUCTO
         private void button3_Click(object sender, EventArgs e)
         {
             string idProducto = cmbElimProd.Text;
@@ -136,6 +144,8 @@ namespace InventarioPED.Forms
                 LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
             }
         }
+
+        //EVENTO QUE DETECTA CUANDO SE HACE LA SELECCION DE UN ID AL MOMENTO DE EDITAR PRODUCTO
         private void cmbProdEdit_SelectedIndexChanged(object sender, EventArgs e)
         {
             string idSeleccionado = cmbProdEdit.Text;
@@ -147,6 +157,7 @@ namespace InventarioPED.Forms
                 if (producto != null)
                 {
                     cmbCatEditProd.Items.Clear();
+                    cmbProveedorProdEdit.DataSource = null;
                     cmbProveedorProdEdit.Items.Clear();
                     CargarCategoriasCmbs(cmbCatEditProd);
                     CargarProveedoresCmbs(cmbProveedorProdEdit);
@@ -156,18 +167,17 @@ namespace InventarioPED.Forms
                     txtProdDescrpt.Text = producto.Descripcion;
                     txtPrecio.Text = producto.Precio.ToString();
                     txtCantidad.Text = producto.Cantidad.ToString();
-                    cmbCatEditProd.SelectedItem = producto.Categoria;
-                    cmbProveedorProdEdit.SelectedItem = producto.Proveedor;
-                    
+                    cmbCatEditProd.Text = producto.Categoria;
+                    cmbProveedorProdEdit.Text = producto.Proveedor;
                 }
                 else
                 {
                     MessageBox.Show("Producto no encontrado en el árbol.", "Error");
                 }
             }
-
         }
 
+        //BOTON PARA CONFIRMAR LA EDICION DE PRODUCTOS
         private void btnEditProd_Click(object sender, EventArgs e)
         {
             string idProducto = cmbProdEdit.SelectedItem?.ToString();
@@ -184,10 +194,13 @@ namespace InventarioPED.Forms
                     producto.Precio = decimal.Parse(txtPrecio.Text);
                     producto.Cantidad = int.Parse(txtCantidad.Text);
                     producto.Categoria = cmbCatEditProd.SelectedItem.ToString();
-                    producto.Proveedor = cmbProveedorProdEdit.SelectedItem.ToString();
+                    producto.Categoria = ((Categoria)cmbCatEditProd.SelectedItem).Nombre;
+                    producto.Proveedor = ((Proveedor)cmbProveedorProdEdit.SelectedItem).Nombre;
 
-                    MessageBox.Show($"✅ Producto actualizado en el árbol: {producto.Id}");
+                    //MessageBox.Show($"✅ Producto actualizado en el árbol: {producto.Id}");
                     ActualizarProductoEnBD(idProducto);
+                    // Actualizar DataGridView
+                    CargarDatosEnGrid(arbol, dataGridView1);
                 }
                 else
                 {
@@ -195,8 +208,7 @@ namespace InventarioPED.Forms
                     return;
                 }
 
-                // Actualizar DataGridView
-                CargarDatosEnGrid(arbol, dataGridView1);
+                
             }
         }
 
@@ -231,28 +243,33 @@ namespace InventarioPED.Forms
 
         //METODO PARA CARGAR LAS CATEGORIAS DE LA BDD EN ORDEN PARA LOS CMB (SE USA EN LA EDICION DE PROD)
         public void CargarCategoriasCmbs(ComboBox cmb)
-        {
-            using (var contexto = new InventarioDBContext())
+        { 
+            var categoriaService = new CategoriaService();
+            var categorias = categoriaService.ObtenerTodas();
+
+            cmb.DataSource = categorias;
+            cmb.DisplayMember = "Nombre";
+            cmb.ValueMember = "Id";
+
+            /*using (var contexto = new InventarioDBContext())
             {
                 var categorias = contexto.Categorias.ToList();
                 foreach (var categoria in categorias)
                 {
                     cmb.Items.Add(categoria.Nombre);
                 }
-            }
+            }*/
         }
 
         //METODO PARA CARGAR LOS PROVEEDORES DE LA BDD EN ORDEN PARA LOS CMB (SE USA EN LA EDICION DE PROD)
         public void CargarProveedoresCmbs(ComboBox cmb)
         {
-            using (var contexto = new InventarioDBContext())
-            {
-                var proveedores = contexto.Proveedores.ToList();
-                foreach (var proveedor in proveedores)
-                {
-                    cmb.Items.Add(proveedor.Nombre);
-                }
-            }
+            var proveedorService = new ProveedorService();
+            var proveedores = proveedorService.ObtenerTodos();
+
+            cmb.DataSource = proveedores;
+            cmb.DisplayMember = "Nombre";
+            cmb.ValueMember = "Id";
         }
 
         //FUNCION PARA CARGAR LOS DATOS EN EL GRID
@@ -445,8 +462,10 @@ namespace InventarioPED.Forms
                     productoBD.Cantidad = int.Parse(txtCantidad.Text);
 
                     // Obtener ID de la categoría y proveedor desde el ComboBox
-                    productoBD.CategoriaId = cmbCatEditProd.SelectedIndex+1;
-                    productoBD.ProveedorId = cmbProveedorProdEdit.SelectedIndex+1;
+                    productoBD.CategoriaId = (int)cmbCatEditProd.SelectedValue;
+
+                    productoBD.ProveedorId = (int)cmbProveedorProdEdit.SelectedValue;
+
 
                     contexto.SaveChanges();  // Guarda cambios en la BD
                     MessageBox.Show($"✅ Producto '{idProducto}' actualizado correctamente.");
@@ -458,6 +477,5 @@ namespace InventarioPED.Forms
             }
 
         }
-
     }
 }
