@@ -308,6 +308,10 @@ namespace InventarioPED.Forms.EnvioForms
             LlenarComboBoxDesdeArbol(arbol, cmbElimEnv);
         }
 
+        private void btnVistaGeneralEnvios_Click(object sender, EventArgs e)
+        {
+            CargarEnviosEnGrid(arbol, dtgvTodosEnvios);
+        }
 
         public void EliminarEnvios(string idEnv)
         {
@@ -385,5 +389,7 @@ namespace InventarioPED.Forms.EnvioForms
             }
 
         }
+
+        
     }
 }
