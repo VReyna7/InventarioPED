@@ -17,9 +17,11 @@ namespace InventarioPED.Forms.EnvioForms
     public partial class AgregarEnvio : Form
     {
         ArbolBinarioEnvio arbol = new ArbolBinarioEnvio();
+        private PriorityQueue<NodoEnvio, (int nivel, DateTime fecha)> colaPrioridad;
         public AgregarEnvio()
         {
             InitializeComponent();
+            colaPrioridad = new PriorityQueue<NodoEnvio, (int, DateTime)>();
         }
 
         private void ConfigurarDataGridView(DataGridView dataGridView)
@@ -55,6 +57,9 @@ namespace InventarioPED.Forms.EnvioForms
 
         private void CargarEnviosDesdeBD(ArbolBinarioEnvio arbol)
         {
+            arbol.Raiz = null;
+            colaPrioridad.Clear();
+
             using (var contexto = new InventarioDBContext())
             {
                 var envios = contexto.Envios
@@ -64,20 +69,22 @@ namespace InventarioPED.Forms.EnvioForms
 
                 foreach (var envio in envios)
                 {
-                    // Se usa el ID como string, ya que el árbol lo espera como tal
-                    string idStr = envio.Id.ToString();
-
-                    // Verifica si ya está en el árbol
+                    string idStr = envio.Id;
                     if (arbol.BuscarPorId(idStr) == null)
                     {
-                        arbol.Insertar(
+                        var creado = envio.CreatedAt;
+                        var nodo = new NodoEnvio(
                             idStr,
                             envio.Nombre,
                             envio.Direccion,
-                            (int)envio.Peso, // Cast porque el árbol usa int
+                            envio.Peso,
                             envio.Prioridad.Nombre,
-                            envio.Estado.Nombre
+                            envio.Estado.Nombre,
+                            creado
                         );
+
+                        arbol.Insertar(nodo);
+                        colaPrioridad.Enqueue(nodo, (nodo.NivelPrioridad, nodo.CreadoEn));
                     }
                 }
             }
@@ -111,24 +118,26 @@ namespace InventarioPED.Forms.EnvioForms
 
         private async void BtnAgregar_Click(object sender, EventArgs e)
         {
-            var envio = new Envio
+            var envioEnt = new Envio
             {
                 Nombre = txtNombreEnvio.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim(),
                 Peso = float.Parse(txtPeso.Text),
                 EstadoId = (int)cmbEstado.SelectedValue,
-                PrioridadId = (int)cmbPrioridad.SelectedValue
+                PrioridadId = (int)cmbPrioridad.SelectedValue,
+                //CreatedAt = DateTime.Now  // <-- asigna aquí la fecha
             };
 
-            var servicioEnvio = new EnvioService();
-            var resultado = await servicioEnvio.AgregarEnvioAsync(envio);
+            var servicio = new EnvioService();
+            var resultado = await servicio.AgregarEnvioAsync(envioEnt);
 
             if (resultado == "OK")
             {
                 MessageBox.Show("Producto guardado con éxito.");
                 LimpiarFormulario();
+
                 CargarEnviosDesdeBD(arbol);
-                CargarEnviosEnGrid(arbol, dtvgUltimosEnvios);
+                CargarEnviosEnGrid(arbol, dtvgUltimosEnvios); 
             }
             else
             {

@@ -39,6 +39,8 @@ namespace InventarioPED.Forms.EnvioForms
 
         private void CargarEnviosDesdeBD(ArbolBinarioEnvio arbol)
         {
+            arbol.Raiz = null;
+
             using (var contexto = new InventarioDBContext())
             {
                 var envios = contexto.Envios
@@ -48,21 +50,17 @@ namespace InventarioPED.Forms.EnvioForms
 
                 foreach (var envio in envios)
                 {
-                    // Se usa el ID como string, ya que el árbol lo espera como tal
-                    string idStr = envio.Id.ToString();
+                    var nodo = new NodoEnvio(
+                        envio.Id,
+                        envio.Nombre,
+                        envio.Direccion,
+                        envio.Peso,
+                        envio.Prioridad.Nombre,
+                        envio.Estado.Nombre,
+                        envio.CreatedAt        // tu propiedad ya viene de BD o del inicializador
+                    );
 
-                    // Verifica si ya está en el árbol
-                    if (arbol.BuscarPorId(idStr) == null)
-                    {
-                        arbol.Insertar(
-                            idStr,
-                            envio.Nombre,
-                            envio.Direccion,
-                            (int)envio.Peso, // Cast porque el árbol usa int 
-                            envio.Prioridad.Nombre,
-                            envio.Estado.Nombre
-                        );
-                    }
+                    arbol.Insertar(nodo);
                 }
             }
         }

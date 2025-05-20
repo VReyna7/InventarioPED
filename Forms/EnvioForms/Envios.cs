@@ -44,5 +44,10 @@ namespace InventarioPED.Forms.EnvioForms
         {
             AbrirFormularioEnPanel(new EnvioAdministracion());
         }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioEnPanel(new Prioritarios());
+        }
     }
 }

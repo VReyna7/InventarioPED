@@ -33,6 +33,8 @@
             toolStripSeparator1 = new ToolStripSeparator();
             ToolStripAgregar = new ToolStripLabel();
             panelContenedorEnvio = new Panel();
+            toolStripSeparator2 = new ToolStripSeparator();
+            toolStripLabel1 = new ToolStripLabel();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -40,7 +42,7 @@
             // 
             toolStrip1.Dock = DockStyle.Left;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { ToolStripMain, toolStripSeparator1, ToolStripAgregar });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { ToolStripMain, toolStripSeparator1, ToolStripAgregar, toolStripSeparator2, toolStripLabel1 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new Padding(6);
@@ -77,6 +79,19 @@
             panelContenedorEnvio.Size = new Size(1239, 460);
             panelContenedorEnvio.TabIndex = 1;
             // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(140, 6);
+            // 
+            // toolStripLabel1
+            // 
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Padding = new Padding(4);
+            toolStripLabel1.Size = new Size(140, 23);
+            toolStripLabel1.Text = "Asignación Prioritarios";
+            toolStripLabel1.Click += toolStripLabel1_Click;
+            // 
             // Envios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -101,5 +116,7 @@
         private ToolStripLabel ToolStripMain;
         private ToolStripSeparator toolStripSeparator1;
         private Panel panelContenedorEnvio;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripLabel toolStripLabel1;
     }
 }
