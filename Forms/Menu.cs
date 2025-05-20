@@ -46,9 +46,5 @@ namespace InventarioPED.Forms
             AbrirFormularioEnPanel(new Envios());
         }
 
-        private void panelContenedor_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

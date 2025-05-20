@@ -14,7 +14,7 @@ namespace InventarioPED.Models
         public float Peso { get; set; }
         public int EstadoId { get; set; }
         public Estado Estado { get; set; }
-
+        public DateTime CreatedAt { get; set; }
         public int PrioridadId { get; set; }
         public Prioridad Prioridad { get; set; }
 

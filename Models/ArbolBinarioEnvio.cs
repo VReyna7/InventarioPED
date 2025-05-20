@@ -7,36 +7,29 @@ using System.Threading.Tasks;
 
 namespace InventarioPED.Models
 {
-    class ArbolBinarioEnvio
+    public class ArbolBinarioEnvio
     {
         public NodoEnvio Raiz { get; set; }
 
-        public void Insertar(string id, string nombre, string direccion, int peso, string prioridad, string estado)
+        public void Insertar(NodoEnvio nuevo)
         {
             if (Raiz == null)
-            {
-                Raiz = new NodoEnvio(id, nombre, direccion, peso,prioridad,estado);
-                Console.WriteLine($"✅ Se asignó la raíz con ID: {id}");
-            }
+                Raiz = nuevo;
             else
-            {
-                Raiz = InsertarRecursivo(Raiz, id, nombre, direccion, peso, prioridad, estado);
-            }
+                Raiz = InsertarRecursivo(Raiz, nuevo);
         }
 
-        private NodoEnvio InsertarRecursivo(NodoEnvio nodo, string id, string nombre, string direccion, int peso, string prioridad, string estado)
+        private NodoEnvio InsertarRecursivo(NodoEnvio actual, NodoEnvio nuevo)
         {
-            if (nodo == null)
-                return new NodoEnvio(id, nombre, direccion, peso, prioridad, estado);
+            if (actual == null)
+                return nuevo;
 
-            Console.WriteLine($"📌 Insertando nodo {id} en comparación con {nodo.Id}");
-
-            if (string.Compare(id, nodo.Id) < 0)
-                nodo.Izquierdo = InsertarRecursivo(nodo.Izquierdo, id, nombre, direccion, peso, prioridad, estado);
+            if (string.Compare(nuevo.Id, actual.Id, StringComparison.Ordinal) < 0)
+                actual.Izquierdo = InsertarRecursivo(actual.Izquierdo, nuevo);
             else
-                nodo.Derecho = InsertarRecursivo(nodo.Derecho, id, nombre, direccion, peso, prioridad, estado);
+                actual.Derecho = InsertarRecursivo(actual.Derecho, nuevo);
 
-            return nodo;
+            return actual;
         }
 
         //BUSQUEDA POR ID

@@ -71,7 +71,6 @@
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1411, 505);
             panelContenedor.TabIndex = 1;
-            panelContenedor.Paint += panelContenedor_Paint;
             // 
             // Menu
             // 

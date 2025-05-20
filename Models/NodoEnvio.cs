@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InventarioPED.Models
 {
-    internal class NodoEnvio
+    public class NodoEnvio
     {
         public string Id { get; set; } // ID del producto
         public string Nombre { get; set; }
@@ -15,10 +15,16 @@ namespace InventarioPED.Models
         public string Estado { get; set; }
         public string Prioridad { get; set; }
 
+        public DateTime CreadoEn { get; set; }
+        public int NivelPrioridad =>
+            Prioridad.Equals("Alta", StringComparison.OrdinalIgnoreCase) ? 1 :
+            Prioridad.Equals("Media", StringComparison.OrdinalIgnoreCase) ? 2 : 3;
+
         public NodoEnvio Izquierdo { get; set; }
         public NodoEnvio Derecho { get; set; }
 
-        public NodoEnvio(string id, string nombre, string direccion, float peso, string prioridad, string estado )
+        public NodoEnvio(string id, string nombre, string direccion,
+                       float peso, string prioridad, string estado, DateTime creadoEn)
         {
             Id = id;
             Nombre = nombre;
@@ -26,6 +32,7 @@ namespace InventarioPED.Models
             Peso = peso;
             Prioridad = prioridad;
             Estado = estado;
+            CreadoEn = creadoEn;
             Izquierdo = null;
             Derecho = null;
         }

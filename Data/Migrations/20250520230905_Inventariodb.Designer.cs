@@ -4,6 +4,7 @@ using InventarioPED.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventarioPED.Data.Migrations
 {
     [DbContext(typeof(InventarioDBContext))]
-    partial class InventarioDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250520230905_Inventariodb")]
+    partial class Inventariodb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
