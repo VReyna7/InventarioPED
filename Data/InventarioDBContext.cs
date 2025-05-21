@@ -181,31 +181,11 @@ namespace InventarioPED.Data
             );
 
             modelBuilder.Entity<Envio>().HasData(
-                new Envio { Id = "ENV20251", Nombre = "Juan Pérez", Direccion = "Av. Reforma 123, Ciudad de México", Peso = 2.5f, EstadoId = 2, PrioridadId = 1 },
-                new Envio { Id = "ENV20252", Nombre = "María López", Direccion = "Calle Juárez 456, Guadalajara", Peso = 1.2f, EstadoId = 3, PrioridadId = 2 },
-                new Envio { Id = "ENV20253", Nombre = "Carlos García", Direccion = "Blvd. Independencia 789, Monterrey", Peso = 3.7f, EstadoId = 1, PrioridadId = 3 },
-                new Envio { Id = "ENV20254", Nombre = "Ana Torres", Direccion = "Av. Universidad 321, Puebla", Peso = 1.9f, EstadoId = 1, PrioridadId = 2 },
-                new Envio { Id = "ENV20255", Nombre = "Luis Fernández", Direccion = "Calle Morelos 654, Mérida", Peso = 2.2f, EstadoId = 2, PrioridadId = 1 },
-                new Envio { Id = "ENV20256", Nombre = "Diana Gómez", Direccion = "Av. Insurgentes 789, CDMX", Peso = 0.9f, EstadoId = 3, PrioridadId = 3 },
-                new Envio { Id = "ENV20257", Nombre = "Pedro Ruiz", Direccion = "Calle Hidalgo 321, Querétaro", Peso = 2.7f, EstadoId = 2, PrioridadId = 1 },
-                new Envio { Id = "ENV20258", Nombre = "Elena Ríos", Direccion = "Camino Real 456, Toluca", Peso = 1.5f, EstadoId = 1, PrioridadId = 2 },
-                new Envio { Id = "ENV20259", Nombre = "Jorge Martínez", Direccion = "Av. Central 123, León", Peso = 3.3f, EstadoId = 3, PrioridadId = 1 },
-                new Envio { Id = "ENV20260", Nombre = "Isabel Navarro", Direccion = "Calle Colón 234, Aguascalientes", Peso = 2.0f, EstadoId = 1, PrioridadId = 3 },
-                new Envio { Id = "ENV20261", Nombre = "Mario Sosa", Direccion = "Av. del Trabajo 789, Tijuana", Peso = 3.1f, EstadoId = 2, PrioridadId = 2 },
-                new Envio { Id = "ENV20262", Nombre = "Lucía Vázquez", Direccion = "Calle Libertad 654, Hermosillo", Peso = 1.8f, EstadoId = 3, PrioridadId = 2 },
-                new Envio { Id = "ENV20263", Nombre = "Raúl Mendoza", Direccion = "Av. de las Torres 321, Oaxaca", Peso = 2.9f, EstadoId = 1, PrioridadId = 1 },
-                new Envio { Id = "ENV20264", Nombre = "Rosa Jiménez", Direccion = "Calle Reforma 987, Morelia", Peso = 2.4f, EstadoId = 2, PrioridadId = 3 },
-                new Envio { Id = "ENV20265", Nombre = "Héctor Silva", Direccion = "Av. Chapultepec 543, CDMX", Peso = 1.3f, EstadoId = 3, PrioridadId = 2 },
-                new Envio { Id = "ENV20266", Nombre = "Valeria Cano", Direccion = "Calle Benito Juárez 654, Saltillo", Peso = 2.6f, EstadoId = 1, PrioridadId = 1 },
-                new Envio { Id = "ENV20267", Nombre = "Gerardo Salas", Direccion = "Blvd. Las Américas 432, Cancún", Peso = 3.8f, EstadoId = 2, PrioridadId = 2 },
-                new Envio { Id = "ENV20268", Nombre = "Andrea Mejía", Direccion = "Av. Constituyentes 111, Zacatecas", Peso = 1.1f, EstadoId = 3, PrioridadId = 3 },
-                new Envio { Id = "ENV20269", Nombre = "Eduardo Herrera", Direccion = "Calle Independencia 321, Tepic", Peso = 2.0f, EstadoId = 2, PrioridadId = 1 },
-                new Envio { Id = "ENV20270", Nombre = "Patricia Díaz", Direccion = "Av. Hidalgo 999, San Luis Potosí", Peso = 3.5f, EstadoId = 3, PrioridadId = 2 },
-                new Envio { Id = "ENV20271", Nombre = "Ignacio Cruz", Direccion = "Calle Oaxaca 654, Chiapas", Peso = 1.6f, EstadoId = 1, PrioridadId = 1 },
-                new Envio { Id = "ENV20272", Nombre = "Alejandra Flores", Direccion = "Av. Paseo del Sol 432, Colima", Peso = 2.1f, EstadoId = 2, PrioridadId = 3 },
-                new Envio { Id = "ENV20273", Nombre = "Tomás Aguirre", Direccion = "Calle Palma 231, Acapulco", Peso = 3.0f, EstadoId = 3, PrioridadId = 2 },
-                new Envio { Id = "ENV20274", Nombre = "Camila Paredes", Direccion = "Av. México 101, CDMX", Peso = 1.4f, EstadoId = 1, PrioridadId = 2 },
-                new Envio { Id = "ENV20275", Nombre = "Sebastián Lara", Direccion = "Calle Luna 888, Celaya", Peso = 2.3f, EstadoId = 2, PrioridadId = 1 }
+                new Envio { Id = "ENV20251", Nombre = "Juan Pérez", Direccion = "Av. Reforma 123, Ciudad de México", Peso = 2.5f, EstadoId = 2, PrioridadId = 1, ProductoId = "PROD20251" },
+                new Envio { Id = "ENV20252", Nombre = "María López", Direccion = "Calle Juárez 456, Guadalajara", Peso = 1.2f, EstadoId = 3, PrioridadId = 2, ProductoId = "PROD20252" },
+                new Envio { Id = "ENV20253", Nombre = "Carlos García", Direccion = "Blvd. Independencia 789, Monterrey", Peso = 3.7f, EstadoId = 1, PrioridadId = 3, ProductoId = "PROD20253" },
+                new Envio { Id = "ENV20254", Nombre = "Ana Torres", Direccion = "Av. Universidad 321, Puebla", Peso = 1.9f, EstadoId = 1, PrioridadId = 2, ProductoId = "PROD20254" },
+                new Envio { Id = "ENV20255", Nombre = "Luis Fernández", Direccion = "Calle Morelos 654, Mérida", Peso = 2.2f, EstadoId = 2, PrioridadId = 1, ProductoId = "PROD20255" }
             );
         }
     }

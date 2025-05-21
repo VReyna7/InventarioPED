@@ -66,35 +66,6 @@ namespace InventarioPED.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Envios",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Peso = table.Column<float>(type: "real", nullable: false),
-                    EstadoId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    PrioridadId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Envios", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Envios_Estados_EstadoId",
-                        column: x => x.EstadoId,
-                        principalTable: "Estados",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Envios_Prioridades_PrioridadId",
-                        column: x => x.PrioridadId,
-                        principalTable: "Prioridades",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Productos",
                 columns: table => new
                 {
@@ -120,6 +91,42 @@ namespace InventarioPED.Data.Migrations
                         name: "FK_Productos_Proveedores_ProveedorId",
                         column: x => x.ProveedorId,
                         principalTable: "Proveedores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Envios",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Peso = table.Column<float>(type: "real", nullable: false),
+                    EstadoId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    PrioridadId = table.Column<int>(type: "int", nullable: false),
+                    ProductoId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Envios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Envios_Estados_EstadoId",
+                        column: x => x.EstadoId,
+                        principalTable: "Estados",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Envios_Prioridades_PrioridadId",
+                        column: x => x.PrioridadId,
+                        principalTable: "Prioridades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Envios_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -178,38 +185,6 @@ namespace InventarioPED.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Envios",
-                columns: new[] { "Id", "Direccion", "EstadoId", "Nombre", "Peso", "PrioridadId" },
-                values: new object[,]
-                {
-                    { "ENV20251", "Av. Reforma 123, Ciudad de México", 2, "Juan Pérez", 2.5f, 1 },
-                    { "ENV20252", "Calle Juárez 456, Guadalajara", 3, "María López", 1.2f, 2 },
-                    { "ENV20253", "Blvd. Independencia 789, Monterrey", 1, "Carlos García", 3.7f, 3 },
-                    { "ENV20254", "Av. Universidad 321, Puebla", 1, "Ana Torres", 1.9f, 2 },
-                    { "ENV20255", "Calle Morelos 654, Mérida", 2, "Luis Fernández", 2.2f, 1 },
-                    { "ENV20256", "Av. Insurgentes 789, CDMX", 3, "Diana Gómez", 0.9f, 3 },
-                    { "ENV20257", "Calle Hidalgo 321, Querétaro", 2, "Pedro Ruiz", 2.7f, 1 },
-                    { "ENV20258", "Camino Real 456, Toluca", 1, "Elena Ríos", 1.5f, 2 },
-                    { "ENV20259", "Av. Central 123, León", 3, "Jorge Martínez", 3.3f, 1 },
-                    { "ENV20260", "Calle Colón 234, Aguascalientes", 1, "Isabel Navarro", 2f, 3 },
-                    { "ENV20261", "Av. del Trabajo 789, Tijuana", 2, "Mario Sosa", 3.1f, 2 },
-                    { "ENV20262", "Calle Libertad 654, Hermosillo", 3, "Lucía Vázquez", 1.8f, 2 },
-                    { "ENV20263", "Av. de las Torres 321, Oaxaca", 1, "Raúl Mendoza", 2.9f, 1 },
-                    { "ENV20264", "Calle Reforma 987, Morelia", 2, "Rosa Jiménez", 2.4f, 3 },
-                    { "ENV20265", "Av. Chapultepec 543, CDMX", 3, "Héctor Silva", 1.3f, 2 },
-                    { "ENV20266", "Calle Benito Juárez 654, Saltillo", 1, "Valeria Cano", 2.6f, 1 },
-                    { "ENV20267", "Blvd. Las Américas 432, Cancún", 2, "Gerardo Salas", 3.8f, 2 },
-                    { "ENV20268", "Av. Constituyentes 111, Zacatecas", 3, "Andrea Mejía", 1.1f, 3 },
-                    { "ENV20269", "Calle Independencia 321, Tepic", 2, "Eduardo Herrera", 2f, 1 },
-                    { "ENV20270", "Av. Hidalgo 999, San Luis Potosí", 3, "Patricia Díaz", 3.5f, 2 },
-                    { "ENV20271", "Calle Oaxaca 654, Chiapas", 1, "Ignacio Cruz", 1.6f, 1 },
-                    { "ENV20272", "Av. Paseo del Sol 432, Colima", 2, "Alejandra Flores", 2.1f, 3 },
-                    { "ENV20273", "Calle Palma 231, Acapulco", 3, "Tomás Aguirre", 3f, 2 },
-                    { "ENV20274", "Av. México 101, CDMX", 1, "Camila Paredes", 1.4f, 2 },
-                    { "ENV20275", "Calle Luna 888, Celaya", 2, "Sebastián Lara", 2.3f, 1 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Productos",
                 columns: new[] { "Id", "Cantidad", "CategoriaId", "Descripcion", "FechaCreacion", "Nombre", "Precio", "ProveedorId" },
                 values: new object[,]
@@ -241,6 +216,18 @@ namespace InventarioPED.Data.Migrations
                     { "PROD20275", 55, 6, "Superficie extendida", new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mouse Pad XL", 15.0m, 1 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Envios",
+                columns: new[] { "Id", "Direccion", "EstadoId", "Nombre", "Peso", "PrioridadId", "ProductoId" },
+                values: new object[,]
+                {
+                    { "ENV20251", "Av. Reforma 123, Ciudad de México", 2, "Juan Pérez", 2.5f, 1, "PROD20251" },
+                    { "ENV20252", "Calle Juárez 456, Guadalajara", 3, "María López", 1.2f, 2, "PROD20252" },
+                    { "ENV20253", "Blvd. Independencia 789, Monterrey", 1, "Carlos García", 3.7f, 3, "PROD20253" },
+                    { "ENV20254", "Av. Universidad 321, Puebla", 1, "Ana Torres", 1.9f, 2, "PROD20254" },
+                    { "ENV20255", "Calle Morelos 654, Mérida", 2, "Luis Fernández", 2.2f, 1, "PROD20255" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Envios_EstadoId",
                 table: "Envios",
@@ -250,6 +237,11 @@ namespace InventarioPED.Data.Migrations
                 name: "IX_Envios_PrioridadId",
                 table: "Envios",
                 column: "PrioridadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Envios_ProductoId",
+                table: "Envios",
+                column: "ProductoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Productos_CategoriaId",
@@ -269,13 +261,13 @@ namespace InventarioPED.Data.Migrations
                 name: "Envios");
 
             migrationBuilder.DropTable(
-                name: "Productos");
-
-            migrationBuilder.DropTable(
                 name: "Estados");
 
             migrationBuilder.DropTable(
                 name: "Prioridades");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Categorias");

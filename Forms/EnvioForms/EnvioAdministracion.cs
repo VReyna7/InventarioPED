@@ -45,7 +45,7 @@ namespace InventarioPED.Forms.EnvioForms
             {
                 var envios = contexto.Envios
                     .Include(e => e.Estado)
-                    .Include(e => e.Prioridad)
+                    .Include(e => e.Prioridad).Include(e => e.Producto)
                     .ToList();
 
                 foreach (var envio in envios)
@@ -57,7 +57,8 @@ namespace InventarioPED.Forms.EnvioForms
                         envio.Peso,
                         envio.Prioridad.Nombre,
                         envio.Estado.Nombre,
-                        envio.CreatedAt        // tu propiedad ya viene de BD o del inicializador
+                        envio.CreatedAt,      // tu propiedad ya viene de BD o del inicializador
+                        envio.Producto.Nombre
                     );
 
                     arbol.Insertar(nodo);
@@ -74,6 +75,7 @@ namespace InventarioPED.Forms.EnvioForms
             dataGridView.Columns.Add("Peso", "Peso");
             dataGridView.Columns.Add("Estado", "Estado");
             dataGridView.Columns.Add("Prioridad", "Prioridad");
+            dataGridView.Columns.Add("Nombre Producto", "Nombre Producto");
         }
 
         private void CargarEnviosEnGrid(ArbolBinarioEnvio arbol, DataGridView dataGridView)
@@ -97,7 +99,8 @@ namespace InventarioPED.Forms.EnvioForms
                     nodo.Direccion,
                     nodo.Peso,
                     nodo.Estado,
-                    nodo.Prioridad
+                    nodo.Prioridad,
+                    nodo.IdProducto
                 );
             }
         }
