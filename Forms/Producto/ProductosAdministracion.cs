@@ -122,34 +122,47 @@ namespace InventarioPED.Forms
         //BOTON PARA ELIMINAR PRODUCTO
         private void button3_Click(object sender, EventArgs e)
         {
-            string idProducto = cmbElimProd.Text;
+            string idProducto = cmbElimProd.SelectedItem?.ToString();
+
+            if (string.IsNullOrWhiteSpace(idProducto))
+            {
+                MessageBox.Show("Debe seleccionar un producto para eliminar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             Nodo prod = arbol.BuscarPorId(idProducto);
+
+            if (prod == null)
+            {
+                MessageBox.Show("El producto no existe en el árbol.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (prod.Cantidad > 0)
             {
                 MessageBox.Show("No es posible eliminar el producto, ya que hay unidades en existencia.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (EliminarProducto(idProducto))
+            {
+                MessageBox.Show($"✅ Producto '{idProducto}' eliminado correctamente.", "Eliminación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Limpiar árbol y DataGridView
+                arbol.Raiz = null;
+                dataGridView1.Rows.Clear();
+
+                // Recargar productos
+                CargarProductosEnArbol(arbol);
+                CargarDatosEnGrid(arbol, dataGridView1);
+
+                // Refrescar ComboBoxes
+                LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
+                LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
             }
             else
             {
-                if(EliminarProducto(idProducto))
-                {
-                    MessageBox.Show($"✅ Producto '{idProducto}' eliminado correctamente.", "Eliminacion Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //LIMPIANDO ARBOL Y GRID
-                    arbol.Raiz = null;
-                    dataGridView1.Rows.Clear(); // También vacía el DataGridView
-
-                    //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
-                    CargarProductosEnArbol(arbol);
-                    CargarDatosEnGrid(arbol, dataGridView1);
-
-                    //LLENANDO LOS CMB CORRESPONDIENTES
-                    LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
-                    LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
-                }
-                else
-                {
-                    MessageBox.Show($"❌ Error: No se encontró el producto '{idProducto}' en la base de datos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show($"❌ Error: No se encontró el producto '{idProducto}' en la base de datos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
