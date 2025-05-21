@@ -130,18 +130,24 @@ namespace InventarioPED.Forms
             }
             else
             {
-                EliminarProducto(idProducto);
+                if(EliminarProducto(idProducto))
+                {
+                    MessageBox.Show($"✅ Producto '{idProducto}' eliminado correctamente.", "Eliminacion Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //LIMPIANDO ARBOL Y GRID
+                    dataGridView1.Rows.Clear(); // También vacía el DataGridView
 
-                //LIMPIANDO ARBOL Y GRID
-                dataGridView1.Rows.Clear(); // También vacía el DataGridView
+                    //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
+                    CargarProductosEnArbol(arbol);
+                    CargarDatosEnGrid(arbol, dataGridView1);
 
-                //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
-                CargarProductosEnArbol(arbol);
-                CargarDatosEnGrid(arbol, dataGridView1);
-
-                //LLENANDO LOS CMB CORRESPONDIENTES
-                LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
-                LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
+                    //LLENANDO LOS CMB CORRESPONDIENTES
+                    //LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
+                    //LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
+                }
+                else
+                {
+                    MessageBox.Show($"❌ Error: No se encontró el producto '{idProducto}' en la base de datos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -156,6 +162,7 @@ namespace InventarioPED.Forms
 
                 if (producto != null)
                 {
+                    cmbCatEditProd.DataSource = null;
                     cmbCatEditProd.Items.Clear();
                     cmbProveedorProdEdit.DataSource = null;
                     cmbProveedorProdEdit.Items.Clear();
@@ -199,8 +206,6 @@ namespace InventarioPED.Forms
 
                     //MessageBox.Show($"✅ Producto actualizado en el árbol: {producto.Id}");
                     ActualizarProductoEnBD(idProducto);
-                    // Actualizar DataGridView
-                    CargarDatosEnGrid(arbol, dataGridView1);
                 }
                 else
                 {
@@ -208,7 +213,9 @@ namespace InventarioPED.Forms
                     return;
                 }
 
-                
+                //LIMPIANDO ARBOL Y GRID
+                dataGridView1.Rows.Clear(); // También vacía el DataGridView
+                CargarDatosEnGrid(arbol, dataGridView1);
             }
         }
 
@@ -390,7 +397,7 @@ namespace InventarioPED.Forms
         }
 
         //Metodo para eliminar productos de la BDD
-        public void EliminarProducto(string idProd)
+        public bool EliminarProducto(string idProd)
         {
             using (var contexto = new InventarioDBContext())
             {
@@ -401,12 +408,12 @@ namespace InventarioPED.Forms
                 {
                     contexto.Productos.Remove(producto);
                     contexto.SaveChanges();
-                    Console.WriteLine($"✅ Producto '{idProd}' eliminado correctamente.", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return true;
                 }
                 else
-                {
-                    Console.WriteLine($"❌ Producto '{producto}' no existe en la BD.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    return false;
+                    
+                
             }
         }
 
