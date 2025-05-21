@@ -227,12 +227,15 @@ namespace InventarioPED.Forms
                         return;
                     }
 
+
                     // Validar que cantidad sea entero
                     if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad))
                     {
                         MessageBox.Show("La cantidad debe ser un número entero válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+
+
 
                     // Validar que se haya seleccionado categoría y proveedor
                     if (cmbCatEditProd.SelectedItem == null || cmbProveedorProdEdit.SelectedItem == null)

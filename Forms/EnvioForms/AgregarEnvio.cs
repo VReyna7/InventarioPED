@@ -206,6 +206,12 @@ namespace InventarioPED.Forms.EnvioForms
                 return false;
             }
 
+            if (peso < 0)
+            {
+                MessageBox.Show("El peso no puede ser negativo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             if (cmbEstado.SelectedItem == null ||
                 cmbPrioridad.SelectedItem == null ||
                 cmbProducto.SelectedItem == null)
