@@ -41,10 +41,10 @@
             btnAgregar = new Button();
             dtvgUltimosEnvios = new DataGridView();
             groupBox1 = new GroupBox();
+            lblProducto = new Label();
+            cmbProducto = new ComboBox();
             label1 = new Label();
             groupBox2 = new GroupBox();
-            cmbProducto = new ComboBox();
-            lblProducto = new Label();
             ((System.ComponentModel.ISupportInitialize)dtvgUltimosEnvios).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -101,6 +101,7 @@
             // 
             // cmbEstado
             // 
+            cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FormattingEnabled = true;
             cmbEstado.Location = new Point(182, 243);
             cmbEstado.Name = "cmbEstado";
@@ -127,6 +128,7 @@
             // 
             // cmbPrioridad
             // 
+            cmbPrioridad.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPrioridad.FormattingEnabled = true;
             cmbPrioridad.Location = new Point(60, 339);
             cmbPrioridad.Name = "cmbPrioridad";
@@ -135,11 +137,11 @@
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(60, 390);
+            btnAgregar.Location = new Point(82, 380);
             btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(75, 23);
+            btnAgregar.Size = new Size(176, 31);
             btnAgregar.TabIndex = 11;
-            btnAgregar.Text = "Agregar";
+            btnAgregar.Text = "Agregar Envio";
             btnAgregar.UseVisualStyleBackColor = true;
             btnAgregar.Click += BtnAgregar_Click;
             // 
@@ -153,6 +155,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnAgregar);
             groupBox1.Controls.Add(lblProducto);
             groupBox1.Controls.Add(cmbProducto);
             groupBox1.Controls.Add(label1);
@@ -166,14 +169,32 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Agregar Envio";
             // 
+            // lblProducto
+            // 
+            lblProducto.AutoSize = true;
+            lblProducto.Location = new Point(182, 308);
+            lblProducto.Name = "lblProducto";
+            lblProducto.Size = new Size(59, 15);
+            lblProducto.TabIndex = 16;
+            lblProducto.Text = "Producto:";
+            // 
+            // cmbProducto
+            // 
+            cmbProducto.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbProducto.FormattingEnabled = true;
+            cmbProducto.Location = new Point(182, 337);
+            cmbProducto.Name = "cmbProducto";
+            cmbProducto.Size = new Size(121, 23);
+            cmbProducto.TabIndex = 17;
+            // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(17, 36);
             label1.Name = "label1";
-            label1.Size = new Size(54, 15);
+            label1.Size = new Size(73, 15);
             label1.TabIndex = 16;
-            label1.Text = "Nombre:";
+            label1.Text = "Destinatario:";
             // 
             // groupBox2
             // 
@@ -185,29 +206,11 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Ultimos envios";
             // 
-            // cmbProducto
-            // 
-            cmbProducto.FormattingEnabled = true;
-            cmbProducto.Location = new Point(182, 337);
-            cmbProducto.Name = "cmbProducto";
-            cmbProducto.Size = new Size(121, 23);
-            cmbProducto.TabIndex = 17;
-            // 
-            // lblProducto
-            // 
-            lblProducto.AutoSize = true;
-            lblProducto.Location = new Point(182, 308);
-            lblProducto.Name = "lblProducto";
-            lblProducto.Size = new Size(56, 15);
-            lblProducto.TabIndex = 16;
-            lblProducto.Text = "Producto";
-            // 
             // AgregarEnvio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1262, 455);
-            Controls.Add(btnAgregar);
             Controls.Add(cmbPrioridad);
             Controls.Add(lblPrioridad);
             Controls.Add(txtPeso);

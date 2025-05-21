@@ -66,7 +66,7 @@ namespace InventarioPED
 
             if (resultado == "OK")
             {
-                MessageBox.Show("Producto guardado con éxito.");
+                MessageBox.Show("Producto registrado con éxito.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
                 CargarProductosDesdeBD(arbol);
                 CargarDatosEnGrid(arbol, dgvUltimosProductos);

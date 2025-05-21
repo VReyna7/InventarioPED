@@ -32,8 +32,8 @@ namespace InventarioPED.Forms.EnvioForms
             dataGridView.Columns.Add("Dirección", "Dirección");
             dataGridView.Columns.Add("IdProducto", "Nombre Producto");
             dataGridView.Columns.Add("Peso", "Peso");
+            dataGridView.Columns.Add("Prioridad", "Prioridad");
             dataGridView.Columns.Add("Estado", "Estado");
-            dataGridView.Columns.Add("Prioridad", "Prioridad");  
         }
 
 
@@ -162,7 +162,7 @@ namespace InventarioPED.Forms.EnvioForms
 
             if (resultado == "OK")
             {
-                MessageBox.Show("Producto guardado con éxito.");
+                MessageBox.Show("Envio registrado con éxito.", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
 
                 CargarEnviosDesdeBD(arbol);
