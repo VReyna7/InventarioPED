@@ -70,11 +70,13 @@ namespace InventarioPED.Forms.EnvioForms
 
             using (var contexto = new InventarioDBContext())
             {
-                var productos = contexto.Productos.ToList();
+                var productos = contexto.Productos
+                    .Where(p => p.Cantidad > 0)
+                    .ToList();
 
                 cmbProducto.DataSource = productos;
-                cmbProducto.DisplayMember = "Nombre"; // lo que el usuario ve
-                cmbProducto.ValueMember = "Id";       // lo que se guarda en Envio
+                cmbProducto.DisplayMember = "Nombre";
+                cmbProducto.ValueMember = "Id";
             }
         }
 
@@ -169,6 +171,17 @@ namespace InventarioPED.Forms.EnvioForms
             else
             {
                 MessageBox.Show("Error: " + resultado, "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            using (var contexto = new InventarioDBContext())
+            {
+                var productos = contexto.Productos
+                    .Where(p => p.Cantidad > 0)
+                    .ToList();
+
+                cmbProducto.DataSource = productos;
+                cmbProducto.DisplayMember = "Nombre";
+                cmbProducto.ValueMember = "Id";
             }
         }
 

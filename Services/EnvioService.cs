@@ -16,10 +16,27 @@ namespace InventarioPED.Services
         {
             using var context = new InventarioDBContext();
 
+            // Generar el ID para el envío
             envio.Id = IdGenerator.GenerarEnvio(context);
 
+            // Buscar el producto relacionado al envío
+            var producto = await context.Productos.FirstOrDefaultAsync(p => p.Id == envio.ProductoId);
+
+            if (producto == null)
+                return "Producto no existe.";
+
+            if (producto.Cantidad <= 0)
+                return "No hay unidades disponibles de este producto.";
+
+            // Restar 1 a la cantidad del producto
+            producto.Cantidad -= 1;
+
+            // Agregar el envío
             context.Envios.Add(envio);
+
+            // Guardar cambios en la BD (envío + producto)
             await context.SaveChangesAsync();
+
             return "OK";
         }
 
