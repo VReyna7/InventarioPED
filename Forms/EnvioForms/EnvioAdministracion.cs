@@ -340,30 +340,53 @@ namespace InventarioPED.Forms.EnvioForms
         {
             string idEnv = cmbEditEnv.SelectedItem?.ToString();
 
-            if (!string.IsNullOrEmpty(idEnv))
+            if (string.IsNullOrEmpty(idEnv))
             {
-                NodoEnvio env = arbol.BuscarPorId(idEnv);
-
-                if (env != null)
-                {
-                    // Modificar datos en el árbol
-                    env.Nombre = txtEnvioNombre.Text.Trim();
-                    env.Direccion = txtDireccion.Text.Trim();
-                    env.Estado = cmbEditEstado.SelectedItem.ToString();
-                    env.Prioridad = cmbEditPrioridad.SelectedItem.ToString();
-
-                    MessageBox.Show($"✅ Producto actualizado en el árbol: {env.Id}");
-                    ActualizarProductoEnBD(idEnv);
-                }
-                else
-                {
-                    MessageBox.Show("Error: No se encontró el producto en el árbol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Actualizar DataGridView
-                CargarEnviosEnGrid(arbol, dtgvTodosEnvios);
+                MessageBox.Show("Debe seleccionar un envío para editar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            NodoEnvio env = arbol.BuscarPorId(idEnv);
+
+            if (env == null)
+            {
+                MessageBox.Show("Error: No se encontró el envío en el árbol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validar campos
+            if (string.IsNullOrWhiteSpace(txtEnvioNombre.Text) ||
+                string.IsNullOrWhiteSpace(txtDireccion.Text))
+            {
+                MessageBox.Show("Los campos 'Nombre' y 'Dirección' no pueden estar vacíos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cmbEditEstado.SelectedItem == null || cmbEditPrioridad.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un estado y una prioridad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Modificar datos en el árbol
+            env.Nombre = txtEnvioNombre.Text.Trim();
+            env.Direccion = txtDireccion.Text.Trim();
+            env.Estado = cmbEditEstado.SelectedItem.ToString();
+            env.Prioridad = cmbEditPrioridad.SelectedItem.ToString();
+
+            // Actualizar en base de datos
+            ActualizarProductoEnBD(idEnv); // Asegúrate de que esta función actualice un envío, no un producto.
+
+            MessageBox.Show($"✅ Envío actualizado en el árbol: {env.Id}");
+            dtgvTodosEnvios.Rows.Clear();
+            // Actualizar DataGridView
+            CargarEnviosEnGrid(arbol, dtgvTodosEnvios);
+
+            txtEnvioNombre.Clear();
+            txtDireccion.Clear();
+            cmbEditEstado.SelectedIndex = -1;
+            cmbEditPrioridad.SelectedIndex = -1;
+            cmbEditEnv.SelectedIndex = -1;
         }
 
 

@@ -197,12 +197,41 @@ namespace InventarioPED.Forms
 
                 if (producto != null)
                 {
-                    // Modificar datos en el árbol
+                    // Validar campos obligatorios
+                    if (string.IsNullOrWhiteSpace(txtProdName.Text) ||
+                        string.IsNullOrWhiteSpace(txtProdDescrpt.Text) ||
+                        string.IsNullOrWhiteSpace(txtPrecio.Text) ||
+                        string.IsNullOrWhiteSpace(txtCantidad.Text))
+                    {
+                        MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Validar que precio sea decimal
+                    if (!decimal.TryParse(txtPrecio.Text.Trim(), out decimal precio))
+                    {
+                        MessageBox.Show("El precio debe ser un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Validar que cantidad sea entero
+                    if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad))
+                    {
+                        MessageBox.Show("La cantidad debe ser un número entero válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Validar que se haya seleccionado categoría y proveedor
+                    if (cmbCatEditProd.SelectedItem == null || cmbProveedorProdEdit.SelectedItem == null)
+                    {
+                        MessageBox.Show("Debe seleccionar una categoría y un proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     producto.Nombre = txtProdName.Text.Trim();
                     producto.Descripcion = txtProdDescrpt.Text.Trim();
-                    producto.Precio = decimal.Parse(txtPrecio.Text);
-                    producto.Cantidad = int.Parse(txtCantidad.Text);
-                    producto.Categoria = cmbCatEditProd.SelectedItem.ToString();
+                    producto.Precio = precio;
+                    producto.Cantidad = cantidad;
                     producto.Categoria = ((Categoria)cmbCatEditProd.SelectedItem).Nombre;
                     producto.Proveedor = ((Proveedor)cmbProveedorProdEdit.SelectedItem).Nombre;
 

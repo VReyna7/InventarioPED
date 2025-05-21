@@ -51,12 +51,15 @@ namespace InventarioPED
 
         private async void BtnAgregar_ClickAsync(object sender, EventArgs e)
         {
+            if (!ValidarCamposProducto(out decimal precio, out int cantidad))
+                return;
+
             var producto = new Producto
             {
                 Nombre = txtNombre.Text.Trim(),
                 Descripcion = txtDescripcion.Text.Trim(),
-                Precio = decimal.Parse(txtPrecio.Text),
-                Cantidad = int.Parse(txtCantidad.Text),
+                Precio = precio,
+                Cantidad = cantidad,
                 CategoriaId = (int)cmbCategoria.SelectedValue,
                 ProveedorId = (int)cmbProveedor.SelectedValue
             };
@@ -75,6 +78,41 @@ namespace InventarioPED
             {
                 MessageBox.Show("Error: " + resultado, "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private bool ValidarCamposProducto(out decimal precio, out int cantidad)
+        {
+            precio = 0;
+            cantidad = 0;
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                string.IsNullOrWhiteSpace(txtDescripcion.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecio.Text) ||
+                string.IsNullOrWhiteSpace(txtCantidad.Text))
+            {
+                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text.Trim(), out precio))
+            {
+                MessageBox.Show("El precio debe ser un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!int.TryParse(txtCantidad.Text.Trim(), out cantidad))
+            {
+                MessageBox.Show("La cantidad debe ser un número entero válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (cmbCategoria.SelectedItem == null || cmbProveedor.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar una categoría y un proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
         }
 
         private void LimpiarFormulario()

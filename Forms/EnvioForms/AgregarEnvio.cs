@@ -32,8 +32,8 @@ namespace InventarioPED.Forms.EnvioForms
             dataGridView.Columns.Add("Dirección", "Dirección");
             dataGridView.Columns.Add("IdProducto", "Nombre Producto");
             dataGridView.Columns.Add("Peso", "Peso");
+            dataGridView.Columns.Add("Prioridad", "Prioridad");
             dataGridView.Columns.Add("Estado", "Estado");
-            dataGridView.Columns.Add("Prioridad", "Prioridad");  
         }
 
 
@@ -146,15 +146,18 @@ namespace InventarioPED.Forms.EnvioForms
 
         private async void BtnAgregar_Click(object sender, EventArgs e)
         {
+            if (!ValidarCamposEnvio(out float peso))
+                return;
+
             var envioEnt = new Envio
             {
                 Nombre = txtNombreEnvio.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim(),
-                Peso = float.Parse(txtPeso.Text),
+                Peso = peso,
                 EstadoId = (int)cmbEstado.SelectedValue,
                 PrioridadId = (int)cmbPrioridad.SelectedValue,
                 ProductoId = cmbProducto.SelectedValue.ToString()
-                //CreatedAt = DateTime.Now  // <-- asigna aquí la fecha
+                // CreatedAt = DateTime.Now
             };
 
             var servicio = new EnvioService();
@@ -162,11 +165,11 @@ namespace InventarioPED.Forms.EnvioForms
 
             if (resultado == "OK")
             {
-                MessageBox.Show("Producto guardado con éxito.");
+                MessageBox.Show("Envío guardado con éxito.");
                 LimpiarFormulario();
 
                 CargarEnviosDesdeBD(arbol);
-                CargarEnviosEnGrid(arbol, dtvgUltimosEnvios); 
+                CargarEnviosEnGrid(arbol, dtvgUltimosEnvios);
             }
             else
             {
@@ -183,6 +186,35 @@ namespace InventarioPED.Forms.EnvioForms
                 cmbProducto.DisplayMember = "Nombre";
                 cmbProducto.ValueMember = "Id";
             }
+        }
+
+        private bool ValidarCamposEnvio(out float peso)
+        {
+            peso = 0;
+
+            if (string.IsNullOrWhiteSpace(txtNombreEnvio.Text) ||
+                string.IsNullOrWhiteSpace(txtDireccion.Text) ||
+                string.IsNullOrWhiteSpace(txtPeso.Text))
+            {
+                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!float.TryParse(txtPeso.Text.Trim(), out peso))
+            {
+                MessageBox.Show("El peso debe ser un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (cmbEstado.SelectedItem == null ||
+                cmbPrioridad.SelectedItem == null ||
+                cmbProducto.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar estado, prioridad y producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
         }
 
         private void LimpiarFormulario()
