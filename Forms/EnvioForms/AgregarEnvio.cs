@@ -165,7 +165,7 @@ namespace InventarioPED.Forms.EnvioForms
 
             if (resultado == "OK")
             {
-                MessageBox.Show("Envío guardado con éxito.");
+                MessageBox.Show("Envio registrado con éxito.", "Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
 
                 CargarEnviosDesdeBD(arbol);
