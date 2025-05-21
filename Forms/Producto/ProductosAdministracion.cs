@@ -93,30 +93,52 @@ namespace InventarioPED.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             string categoria = txtCategoria.Text;
-            AgregarCategoria(categoria);
-            txtCategoria.Text = "";
-            LlenarComboBoxConCategorias(cmbCatProd);
-            LlenarComboBoxConCategorias(cmbCatElim);
+            // Verificar si el ComboBox tiene un valor seleccionado
+            if (string.IsNullOrEmpty(categoria))
+            {
+                MessageBox.Show("Por favor, ingrese una categoría.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                AgregarCategoria(categoria);
+                txtCategoria.Text = "";
+                LlenarComboBoxConCategorias(cmbCatProd);
+                LlenarComboBoxConCategorias(cmbCatElim);
+            }
+                
         }
 
         //BOTON PARA ELIMINAR UNA CATEGORIA
         private void btnElimCat_Click(object sender, EventArgs e)
         {
-            string categoria = cmbCatElim.Text;
+            string categoria = cmbCatElim.Text.Trim();
+
+            // Verificar si el ComboBox tiene un valor seleccionado
+            if (string.IsNullOrEmpty(categoria))
+            {
+                MessageBox.Show("Por favor, seleccione una categoría.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             List<Nodo> productosCategoria = arbol.BuscarPorCategoria(categoria);
 
             if (productosCategoria.Count > 0)
             {
-                MessageBox.Show("No es posible eliminar la categoría, ya que hay productos que pertenecientes a ella.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No es posible eliminar la categoría, ya que hay productos pertenecientes a ella.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
                 EliminarCategoria(categoria);
-                MessageBox.Show($"✅ Categoría '{categoria}' eliminada correctamente.", "Eliminacion Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"✅ Categoría '{categoria}' eliminada correctamente.",
+                                "Eliminación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LlenarComboBoxConCategorias(cmbCatElim);
                 LlenarComboBoxConCategorias(cmbCatProd);
             }
+
         }
 
         //BOTON PARA ELIMINAR PRODUCTO
