@@ -17,6 +17,9 @@ namespace InventarioPED.Models
         public DateTime CreatedAt { get; set; }
         public int PrioridadId { get; set; }
         public Prioridad Prioridad { get; set; }
+        public string ProductoId { get; set; }
+        public Producto Producto { get; set; }
+
 
     }
 }

@@ -113,11 +113,17 @@ namespace InventarioPED.Data.Migrations
                     b.Property<int>("PrioridadId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductoId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
 
                     b.HasIndex("PrioridadId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("Envios");
 
@@ -130,7 +136,8 @@ namespace InventarioPED.Data.Migrations
                             EstadoId = 2,
                             Nombre = "Juan Pérez",
                             Peso = 2.5f,
-                            PrioridadId = 1
+                            PrioridadId = 1,
+                            ProductoId = "PROD20251"
                         },
                         new
                         {
@@ -140,7 +147,8 @@ namespace InventarioPED.Data.Migrations
                             EstadoId = 3,
                             Nombre = "María López",
                             Peso = 1.2f,
-                            PrioridadId = 2
+                            PrioridadId = 2,
+                            ProductoId = "PROD20252"
                         },
                         new
                         {
@@ -150,7 +158,8 @@ namespace InventarioPED.Data.Migrations
                             EstadoId = 1,
                             Nombre = "Carlos García",
                             Peso = 3.7f,
-                            PrioridadId = 3
+                            PrioridadId = 3,
+                            ProductoId = "PROD20253"
                         },
                         new
                         {
@@ -160,7 +169,8 @@ namespace InventarioPED.Data.Migrations
                             EstadoId = 1,
                             Nombre = "Ana Torres",
                             Peso = 1.9f,
-                            PrioridadId = 2
+                            PrioridadId = 2,
+                            ProductoId = "PROD20254"
                         },
                         new
                         {
@@ -170,207 +180,8 @@ namespace InventarioPED.Data.Migrations
                             EstadoId = 2,
                             Nombre = "Luis Fernández",
                             Peso = 2.2f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20256",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. Insurgentes 789, CDMX",
-                            EstadoId = 3,
-                            Nombre = "Diana Gómez",
-                            Peso = 0.9f,
-                            PrioridadId = 3
-                        },
-                        new
-                        {
-                            Id = "ENV20257",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Hidalgo 321, Querétaro",
-                            EstadoId = 2,
-                            Nombre = "Pedro Ruiz",
-                            Peso = 2.7f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20258",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Camino Real 456, Toluca",
-                            EstadoId = 1,
-                            Nombre = "Elena Ríos",
-                            Peso = 1.5f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20259",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. Central 123, León",
-                            EstadoId = 3,
-                            Nombre = "Jorge Martínez",
-                            Peso = 3.3f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20260",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Colón 234, Aguascalientes",
-                            EstadoId = 1,
-                            Nombre = "Isabel Navarro",
-                            Peso = 2f,
-                            PrioridadId = 3
-                        },
-                        new
-                        {
-                            Id = "ENV20261",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. del Trabajo 789, Tijuana",
-                            EstadoId = 2,
-                            Nombre = "Mario Sosa",
-                            Peso = 3.1f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20262",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Libertad 654, Hermosillo",
-                            EstadoId = 3,
-                            Nombre = "Lucía Vázquez",
-                            Peso = 1.8f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20263",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. de las Torres 321, Oaxaca",
-                            EstadoId = 1,
-                            Nombre = "Raúl Mendoza",
-                            Peso = 2.9f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20264",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Reforma 987, Morelia",
-                            EstadoId = 2,
-                            Nombre = "Rosa Jiménez",
-                            Peso = 2.4f,
-                            PrioridadId = 3
-                        },
-                        new
-                        {
-                            Id = "ENV20265",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. Chapultepec 543, CDMX",
-                            EstadoId = 3,
-                            Nombre = "Héctor Silva",
-                            Peso = 1.3f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20266",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Benito Juárez 654, Saltillo",
-                            EstadoId = 1,
-                            Nombre = "Valeria Cano",
-                            Peso = 2.6f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20267",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Blvd. Las Américas 432, Cancún",
-                            EstadoId = 2,
-                            Nombre = "Gerardo Salas",
-                            Peso = 3.8f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20268",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. Constituyentes 111, Zacatecas",
-                            EstadoId = 3,
-                            Nombre = "Andrea Mejía",
-                            Peso = 1.1f,
-                            PrioridadId = 3
-                        },
-                        new
-                        {
-                            Id = "ENV20269",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Independencia 321, Tepic",
-                            EstadoId = 2,
-                            Nombre = "Eduardo Herrera",
-                            Peso = 2f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20270",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. Hidalgo 999, San Luis Potosí",
-                            EstadoId = 3,
-                            Nombre = "Patricia Díaz",
-                            Peso = 3.5f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20271",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Oaxaca 654, Chiapas",
-                            EstadoId = 1,
-                            Nombre = "Ignacio Cruz",
-                            Peso = 1.6f,
-                            PrioridadId = 1
-                        },
-                        new
-                        {
-                            Id = "ENV20272",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. Paseo del Sol 432, Colima",
-                            EstadoId = 2,
-                            Nombre = "Alejandra Flores",
-                            Peso = 2.1f,
-                            PrioridadId = 3
-                        },
-                        new
-                        {
-                            Id = "ENV20273",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Palma 231, Acapulco",
-                            EstadoId = 3,
-                            Nombre = "Tomás Aguirre",
-                            Peso = 3f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20274",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Av. México 101, CDMX",
-                            EstadoId = 1,
-                            Nombre = "Camila Paredes",
-                            Peso = 1.4f,
-                            PrioridadId = 2
-                        },
-                        new
-                        {
-                            Id = "ENV20275",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Direccion = "Calle Luna 888, Celaya",
-                            EstadoId = 2,
-                            Nombre = "Sebastián Lara",
-                            Peso = 2.3f,
-                            PrioridadId = 1
+                            PrioridadId = 1,
+                            ProductoId = "PROD20255"
                         });
                 });
 
@@ -839,9 +650,17 @@ namespace InventarioPED.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InventarioPED.Models.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Estado");
 
                     b.Navigation("Prioridad");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("InventarioPED.Models.Producto", b =>

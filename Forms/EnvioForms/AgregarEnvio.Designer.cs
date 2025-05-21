@@ -43,6 +43,8 @@
             groupBox1 = new GroupBox();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            cmbProducto = new ComboBox();
+            lblProducto = new Label();
             ((System.ComponentModel.ISupportInitialize)dtvgUltimosEnvios).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -151,6 +153,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(lblProducto);
+            groupBox1.Controls.Add(cmbProducto);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(cmbEstado);
             groupBox1.Controls.Add(lblEstado);
@@ -180,6 +184,23 @@
             groupBox2.TabIndex = 15;
             groupBox2.TabStop = false;
             groupBox2.Text = "Ultimos envios";
+            // 
+            // cmbProducto
+            // 
+            cmbProducto.FormattingEnabled = true;
+            cmbProducto.Location = new Point(182, 337);
+            cmbProducto.Name = "cmbProducto";
+            cmbProducto.Size = new Size(121, 23);
+            cmbProducto.TabIndex = 17;
+            // 
+            // lblProducto
+            // 
+            lblProducto.AutoSize = true;
+            lblProducto.Location = new Point(182, 308);
+            lblProducto.Name = "lblProducto";
+            lblProducto.Size = new Size(56, 15);
+            lblProducto.TabIndex = 16;
+            lblProducto.Text = "Producto";
             // 
             // AgregarEnvio
             // 
@@ -223,5 +244,7 @@
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private Label label1;
+        private Label lblProducto;
+        private ComboBox cmbProducto;
     }
 }

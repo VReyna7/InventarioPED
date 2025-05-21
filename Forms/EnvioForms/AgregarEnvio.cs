@@ -30,9 +30,23 @@ namespace InventarioPED.Forms.EnvioForms
             dataGridView.Columns.Add("Id", "Id");
             dataGridView.Columns.Add("Nombre", "Nombre");
             dataGridView.Columns.Add("Dirección", "Dirección");
+            dataGridView.Columns.Add("IdProducto", "Nombre Producto");
             dataGridView.Columns.Add("Peso", "Peso");
             dataGridView.Columns.Add("Estado", "Estado");
-            dataGridView.Columns.Add("Prioridad", "Prioridad");
+            dataGridView.Columns.Add("Prioridad", "Prioridad");  
+        }
+
+
+        private void CargarProductosEnComboBox()
+        {
+            using (var contexto = new InventarioDBContext())
+            {
+                var productos = contexto.Productos.ToList();
+
+                cmbProducto.DataSource = productos;
+                cmbProducto.DisplayMember = "Nombre"; // lo que el usuario ve
+                cmbProducto.ValueMember = "Id";       // lo que se guarda en Envio
+            }
         }
 
         private void AgregarEnvio_Load(object sender, EventArgs e)
@@ -53,6 +67,15 @@ namespace InventarioPED.Forms.EnvioForms
             cmbPrioridad.DataSource = prioridades;
             cmbPrioridad.DisplayMember = "Nombre";
             cmbPrioridad.ValueMember = "Id";
+
+            using (var contexto = new InventarioDBContext())
+            {
+                var productos = contexto.Productos.ToList();
+
+                cmbProducto.DataSource = productos;
+                cmbProducto.DisplayMember = "Nombre"; // lo que el usuario ve
+                cmbProducto.ValueMember = "Id";       // lo que se guarda en Envio
+            }
         }
 
         private void CargarEnviosDesdeBD(ArbolBinarioEnvio arbol)
@@ -65,6 +88,7 @@ namespace InventarioPED.Forms.EnvioForms
                 var envios = contexto.Envios
                     .Include(e => e.Estado)
                     .Include(e => e.Prioridad)
+                    .Include(e => e.Producto)
                     .ToList();
 
                 foreach (var envio in envios)
@@ -74,13 +98,14 @@ namespace InventarioPED.Forms.EnvioForms
                     {
                         var creado = envio.CreatedAt;
                         var nodo = new NodoEnvio(
-                            idStr,
+                             idStr,
                             envio.Nombre,
                             envio.Direccion,
-                            envio.Peso,
+                            (int)envio.Peso,
                             envio.Prioridad.Nombre,
                             envio.Estado.Nombre,
-                            creado
+                            envio.CreatedAt,
+                            envio.Producto.Nombre
                         );
 
                         arbol.Insertar(nodo);
@@ -109,6 +134,7 @@ namespace InventarioPED.Forms.EnvioForms
                     nodo.Id,
                     nodo.Nombre,
                     nodo.Direccion,
+                    nodo.IdProducto,
                     nodo.Peso,
                     nodo.Prioridad,
                     nodo.Estado
@@ -125,6 +151,7 @@ namespace InventarioPED.Forms.EnvioForms
                 Peso = float.Parse(txtPeso.Text),
                 EstadoId = (int)cmbEstado.SelectedValue,
                 PrioridadId = (int)cmbPrioridad.SelectedValue,
+                ProductoId = cmbProducto.SelectedValue.ToString()
                 //CreatedAt = DateTime.Now  // <-- asigna aquí la fecha
             };
 

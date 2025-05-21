@@ -42,6 +42,7 @@ namespace InventarioPED.Forms.EnvioForms
                 var envios = contexto.Envios
                     .Include(e => e.Estado)
                     .Include(e => e.Prioridad)
+                    .Include(e => e.Producto)
                     .ToList();
 
                 foreach (var envio in envios)
@@ -53,7 +54,8 @@ namespace InventarioPED.Forms.EnvioForms
                         envio.Peso,
                         envio.Prioridad.Nombre,
                         envio.Estado.Nombre,
-                        envio.CreatedAt
+                        envio.CreatedAt,
+                        envio.Producto.Nombre
                     );
                     colaPrioridad.Enqueue(nodo, (nodo.NivelPrioridad, nodo.CreadoEn));
                 }
@@ -68,13 +70,14 @@ namespace InventarioPED.Forms.EnvioForms
             {
                 var nodo = colaPrioridad.Dequeue();
                 dtgvPrioritarios.Rows.Add(
-                    nodo.Id,
-                    nodo.Nombre,
-                    nodo.Direccion,
-                    nodo.Peso,
-                    nodo.Estado,
-                    nodo.Prioridad,
-                    nodo.CreadoEn.ToString("g")
+                        nodo.Id,
+                        nodo.Nombre,
+                        nodo.Direccion,
+                        nodo.Peso,
+                        nodo.Estado,
+                        nodo.Prioridad,
+                        nodo.CreadoEn.ToString("g"),
+                        nodo.IdProducto
                 );
                 aux.Enqueue(nodo, (nodo.NivelPrioridad, nodo.CreadoEn));
             }
@@ -96,6 +99,7 @@ namespace InventarioPED.Forms.EnvioForms
             dataGridView.Columns.Add("Estado", "Estado");
             dataGridView.Columns.Add("Prioridad", "Prioridad");
             dataGridView.Columns.Add("Creado en", "Creado En");
+            dataGridView.Columns.Add("IdProducto", "Nombre Producto");
         }
 
         private void BtnMostar10_Click(object sender, EventArgs e)

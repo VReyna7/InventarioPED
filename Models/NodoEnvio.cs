@@ -15,6 +15,7 @@ namespace InventarioPED.Models
         public string Estado { get; set; }
         public string Prioridad { get; set; }
 
+        public string IdProducto { get; set; }
         public DateTime CreadoEn { get; set; }
         public int NivelPrioridad =>
             Prioridad.Equals("Alta", StringComparison.OrdinalIgnoreCase) ? 1 :
@@ -23,8 +24,7 @@ namespace InventarioPED.Models
         public NodoEnvio Izquierdo { get; set; }
         public NodoEnvio Derecho { get; set; }
 
-        public NodoEnvio(string id, string nombre, string direccion,
-                       float peso, string prioridad, string estado, DateTime creadoEn)
+        public NodoEnvio(string id, string nombre, string direccion, float peso, string prioridad, string estado, DateTime creadoEn, string idProducto)
         {
             Id = id;
             Nombre = nombre;
@@ -33,8 +33,7 @@ namespace InventarioPED.Models
             Prioridad = prioridad;
             Estado = estado;
             CreadoEn = creadoEn;
-            Izquierdo = null;
-            Derecho = null;
+            IdProducto = idProducto;
         }
     }
 }
