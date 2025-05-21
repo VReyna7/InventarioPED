@@ -69,9 +69,9 @@
             lblDireccion.AutoSize = true;
             lblDireccion.Location = new Point(53, 110);
             lblDireccion.Name = "lblDireccion";
-            lblDireccion.Size = new Size(57, 15);
+            lblDireccion.Size = new Size(60, 15);
             lblDireccion.TabIndex = 3;
-            lblDireccion.Text = "Dirección";
+            lblDireccion.Text = "Dirección:";
             // 
             // txtDireccion
             // 
@@ -86,9 +86,9 @@
             lblPesoEnvio.AutoSize = true;
             lblPesoEnvio.Location = new Point(56, 224);
             lblPesoEnvio.Name = "lblPesoEnvio";
-            lblPesoEnvio.Size = new Size(32, 15);
+            lblPesoEnvio.Size = new Size(56, 15);
             lblPesoEnvio.TabIndex = 5;
-            lblPesoEnvio.Text = "Peso";
+            lblPesoEnvio.Text = "Peso (lb):";
             // 
             // txtPeso
             // 
@@ -110,18 +110,18 @@
             lblEstado.AutoSize = true;
             lblEstado.Location = new Point(182, 222);
             lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(42, 15);
+            lblEstado.Size = new Size(45, 15);
             lblEstado.TabIndex = 8;
-            lblEstado.Text = "Estado";
+            lblEstado.Text = "Estado:";
             // 
             // lblPrioridad
             // 
             lblPrioridad.AutoSize = true;
             lblPrioridad.Location = new Point(60, 310);
             lblPrioridad.Name = "lblPrioridad";
-            lblPrioridad.Size = new Size(55, 15);
+            lblPrioridad.Size = new Size(58, 15);
             lblPrioridad.TabIndex = 9;
-            lblPrioridad.Text = "Prioridad";
+            lblPrioridad.Text = "Prioridad:";
             // 
             // cmbPrioridad
             // 
@@ -167,9 +167,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(17, 36);
             label1.Name = "label1";
-            label1.Size = new Size(51, 15);
+            label1.Size = new Size(54, 15);
             label1.TabIndex = 16;
-            label1.Text = "Nombre";
+            label1.Text = "Nombre:";
             // 
             // groupBox2
             // 

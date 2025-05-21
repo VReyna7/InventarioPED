@@ -212,8 +212,6 @@ namespace InventarioPED.Forms
             }
         }
 
-
-
         //--------------------------------------------------------------------------------------------------
 
         //FUNCION PARA CARGAR LOS PRODUCTOS DE LA BDD EN EL ARBOL
@@ -250,15 +248,6 @@ namespace InventarioPED.Forms
             cmb.DataSource = categorias;
             cmb.DisplayMember = "Nombre";
             cmb.ValueMember = "Id";
-
-            /*using (var contexto = new InventarioDBContext())
-            {
-                var categorias = contexto.Categorias.ToList();
-                foreach (var categoria in categorias)
-                {
-                    cmb.Items.Add(categoria.Nombre);
-                }
-            }*/
         }
 
         //METODO PARA CARGAR LOS PROVEEDORES DE LA BDD EN ORDEN PARA LOS CMB (SE USA EN LA EDICION DE PROD)
@@ -345,7 +334,7 @@ namespace InventarioPED.Forms
             }
         }
 
-        //Metodo para obtener las categorias de la bdd
+        //Metodo para obtener las categorias de la bdd y pasarlas al arbol al momento de cargar el form
         private HashSet<string> ObtenerCategoriasDesdeBD()
         {
             HashSet<string> categoriasUnicas = new HashSet<string>();
@@ -391,11 +380,11 @@ namespace InventarioPED.Forms
                 {
                     contexto.Categorias.Remove(categoria);
                     contexto.SaveChanges();
-                    Console.WriteLine($"✅ Categoría '{nombreCategoria}' eliminada correctamente.");
+                    Console.WriteLine($"✅ Categoría '{nombreCategoria}' eliminada correctamente.", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    Console.WriteLine($"❌ La categoría '{nombreCategoria}' no existe en la BD.");
+                    Console.WriteLine($"❌ La categoría '{nombreCategoria}' no existe en la BD.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -412,40 +401,13 @@ namespace InventarioPED.Forms
                 {
                     contexto.Productos.Remove(producto);
                     contexto.SaveChanges();
-                    Console.WriteLine($"✅ Producto '{idProd}' eliminado correctamente.");
+                    Console.WriteLine($"✅ Producto '{idProd}' eliminado correctamente.", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    Console.WriteLine($"❌ Producto '{producto}' no existe en la BD.");
+                    Console.WriteLine($"❌ Producto '{producto}' no existe en la BD.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        //Metodo para llenar el comboBox con los proveedores
-        private void LlenarComboBoxConProveedores(ComboBox comboBox)
-        {
-            HashSet<string> proveedores = ObtenerProveedoresDesdeBD();
-
-            comboBox.Items.Clear();
-            comboBox.Items.AddRange(proveedores.ToArray());
-        }
-
-        //Metodo para obtener los proveedores de la bdd
-        private HashSet<string> ObtenerProveedoresDesdeBD()
-        {
-            HashSet<string> proveedores = new HashSet<string>();
-
-            using (var contexto = new InventarioDBContext())
-            {
-                var provs = contexto.Proveedores.Select(c => c.Nombre).Distinct().ToList();
-
-                foreach (var proveedor in provs)
-                {
-                    proveedores.Add(proveedor);
-                }
-            }
-
-            return proveedores;
         }
 
         private void ActualizarProductoEnBD(string idProducto)
@@ -468,11 +430,11 @@ namespace InventarioPED.Forms
 
 
                     contexto.SaveChanges();  // Guarda cambios en la BD
-                    MessageBox.Show($"✅ Producto '{idProducto}' actualizado correctamente.");
+                    MessageBox.Show($"✅ Producto '{idProducto}' actualizado correctamente.", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("❌ Error: El producto no existe en la base de datos.", "Validación");
+                    MessageBox.Show("❌ Error: El producto no existe en la base de datos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 

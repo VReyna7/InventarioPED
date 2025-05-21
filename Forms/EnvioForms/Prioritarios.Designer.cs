@@ -38,16 +38,16 @@
             // dtgvPrioritarios
             // 
             dtgvPrioritarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgvPrioritarios.Location = new Point(24, 21);
+            dtgvPrioritarios.Location = new Point(31, 21);
             dtgvPrioritarios.Name = "dtgvPrioritarios";
-            dtgvPrioritarios.Size = new Size(505, 417);
+            dtgvPrioritarios.Size = new Size(1013, 417);
             dtgvPrioritarios.TabIndex = 0;
             // 
             // BtnMostar10
             // 
-            BtnMostar10.Location = new Point(602, 52);
+            BtnMostar10.Location = new Point(1067, 21);
             BtnMostar10.Name = "BtnMostar10";
-            BtnMostar10.Size = new Size(100, 40);
+            BtnMostar10.Size = new Size(161, 129);
             BtnMostar10.TabIndex = 1;
             BtnMostar10.Text = "Mostar 10";
             BtnMostar10.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             // 
             // BtnMostrar25
             // 
-            BtnMostrar25.Location = new Point(602, 135);
+            BtnMostrar25.Location = new Point(1067, 164);
             BtnMostrar25.Name = "BtnMostrar25";
-            BtnMostrar25.Size = new Size(100, 40);
+            BtnMostrar25.Size = new Size(161, 129);
             BtnMostrar25.TabIndex = 2;
             BtnMostrar25.Text = "Mostar 25";
             BtnMostrar25.UseVisualStyleBackColor = true;
@@ -65,9 +65,9 @@
             // 
             // btnVistGeneral
             // 
-            btnVistGeneral.Location = new Point(602, 215);
+            btnVistGeneral.Location = new Point(1067, 309);
             btnVistGeneral.Name = "btnVistGeneral";
-            btnVistGeneral.Size = new Size(100, 40);
+            btnVistGeneral.Size = new Size(161, 129);
             btnVistGeneral.TabIndex = 3;
             btnVistGeneral.Text = "Vista General";
             btnVistGeneral.UseVisualStyleBackColor = true;
@@ -77,7 +77,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1254, 450);
             Controls.Add(btnVistGeneral);
             Controls.Add(BtnMostrar25);
             Controls.Add(BtnMostar10);
