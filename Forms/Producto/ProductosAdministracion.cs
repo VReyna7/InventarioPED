@@ -134,6 +134,7 @@ namespace InventarioPED.Forms
                 {
                     MessageBox.Show($"✅ Producto '{idProducto}' eliminado correctamente.", "Eliminacion Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     //LIMPIANDO ARBOL Y GRID
+                    arbol.Raiz = null;
                     dataGridView1.Rows.Clear(); // También vacía el DataGridView
 
                     //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
@@ -141,8 +142,8 @@ namespace InventarioPED.Forms
                     CargarDatosEnGrid(arbol, dataGridView1);
 
                     //LLENANDO LOS CMB CORRESPONDIENTES
-                    //LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
-                    //LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
+                    LlenarComboBoxDesdeArbol(arbol, cmbIdProd);
+                    LlenarComboBoxDesdeArbol(arbol, cmbElimProd);
                 }
                 else
                 {
