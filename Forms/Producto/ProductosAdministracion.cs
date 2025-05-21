@@ -123,6 +123,7 @@ namespace InventarioPED.Forms
         private void button3_Click(object sender, EventArgs e)
         {
             string idProducto = cmbElimProd.Text;
+
             Nodo prod = arbol.BuscarPorId(idProducto);
             if (prod.Cantidad > 0)
             {
