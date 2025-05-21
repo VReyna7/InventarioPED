@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventarioPED.Data.Migrations
 {
     [DbContext(typeof(InventarioDBContext))]
-    [Migration("20250521000855_Inventariodb")]
+    [Migration("20250521012930_Inventariodb")]
     partial class Inventariodb
     {
         /// <inheritdoc />
@@ -394,7 +394,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20260",
+                            Id = "PROD202510",
                             Cantidad = 100,
                             CategoriaId = 6,
                             Descripcion = "Cable HDMI 2 metros",
@@ -405,7 +405,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20261",
+                            Id = "PROD202511",
                             Cantidad = 25,
                             CategoriaId = 4,
                             Descripcion = "DDR4 3200MHz",
@@ -416,7 +416,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20262",
+                            Id = "PROD202512",
                             Cantidad = 8,
                             CategoriaId = 4,
                             Descripcion = "6GB GDDR6",
@@ -427,7 +427,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20263",
+                            Id = "PROD202513",
                             Cantidad = 18,
                             CategoriaId = 7,
                             Descripcion = "Con ventiladores RGB",
@@ -438,7 +438,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20264",
+                            Id = "PROD202514",
                             Cantidad = 22,
                             CategoriaId = 7,
                             Descripcion = "Certificación 80 Plus",
@@ -449,7 +449,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20265",
+                            Id = "PROD202515",
                             Cantidad = 45,
                             CategoriaId = 5,
                             Descripcion = "Cámara 1080p",
@@ -460,7 +460,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20266",
+                            Id = "PROD202516",
                             Cantidad = 27,
                             CategoriaId = 5,
                             Descripcion = "Con micrófono incluido",
@@ -471,7 +471,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20267",
+                            Id = "PROD202517",
                             Cantidad = 16,
                             CategoriaId = 8,
                             Descripcion = "Sistema Android",
@@ -482,7 +482,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20268",
+                            Id = "PROD202518",
                             Cantidad = 60,
                             CategoriaId = 6,
                             Descripcion = "Carga rápida",
@@ -493,7 +493,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20269",
+                            Id = "PROD202519",
                             Cantidad = 40,
                             CategoriaId = 6,
                             Descripcion = "Convertidor",
@@ -504,7 +504,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20270",
+                            Id = "PROD202520",
                             Cantidad = 13,
                             CategoriaId = 3,
                             Descripcion = "8 puertos",
@@ -515,7 +515,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20271",
+                            Id = "PROD202521",
                             Cantidad = 11,
                             CategoriaId = 9,
                             Descripcion = "Impresora monocromática",
@@ -526,7 +526,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20272",
+                            Id = "PROD202522",
                             Cantidad = 14,
                             CategoriaId = 9,
                             Descripcion = "Escáner plano A4",
@@ -537,7 +537,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20273",
+                            Id = "PROD202523",
                             Cantidad = 19,
                             CategoriaId = 8,
                             Descripcion = "Monitor de salud",
@@ -548,7 +548,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20274",
+                            Id = "PROD202524",
                             Cantidad = 30,
                             CategoriaId = 6,
                             Descripcion = "Con ventilación",
@@ -559,7 +559,7 @@ namespace InventarioPED.Data.Migrations
                         },
                         new
                         {
-                            Id = "PROD20275",
+                            Id = "PROD202525",
                             Cantidad = 55,
                             CategoriaId = 6,
                             Descripcion = "Superficie extendida",

@@ -14,18 +14,28 @@ namespace InventarioPED.Utils
             int año = DateTime.Now.Year;
             string prefijo = $"PROD{año}";
 
-            var ultimoId = context.Productos
+            // Traemos todos los IDs que comienzan con el prefijo
+            var ids = context.Productos
                 .Where(p => p.Id.StartsWith(prefijo))
-                .OrderByDescending(p => p.Id)
                 .Select(p => p.Id)
-                .FirstOrDefault();
+                .ToList();
 
-            int nuevoNumero = 1;
+            int ultimoNumero = 0;
 
-            if (!string.IsNullOrEmpty(ultimoId) && int.TryParse(ultimoId.Substring(prefijo.Length), out int ultimoNumero))
+            foreach (var id in ids)
             {
-                nuevoNumero = ultimoNumero + 1;
+                var numeroStr = id.Substring(prefijo.Length);
+
+                if (int.TryParse(numeroStr, out int numero))
+                {
+                    if (numero > ultimoNumero)
+                    {
+                        ultimoNumero = numero;
+                    }
+                }
             }
+
+            int nuevoNumero = ultimoNumero + 1;
 
             return $"{prefijo}{nuevoNumero}";
         }
@@ -35,18 +45,28 @@ namespace InventarioPED.Utils
             int año = DateTime.Now.Year;
             string prefijo = $"ENV{año}";
 
-            var ultimoId = context.Envios
+            // Traemos todos los IDs que comienzan con el prefijo
+            var ids = context.Envios
                 .Where(p => p.Id.StartsWith(prefijo))
-                .OrderByDescending(p => p.Id)
                 .Select(p => p.Id)
-                .FirstOrDefault();
+                .ToList();
 
-            int nuevoNumero = 1;
+            int ultimoNumero = 0;
 
-            if (!string.IsNullOrEmpty(ultimoId) && int.TryParse(ultimoId.Substring(prefijo.Length), out int ultimoNumero))
+            foreach (var id in ids)
             {
-                nuevoNumero = ultimoNumero + 1;
+                var numeroStr = id.Substring(prefijo.Length);
+
+                if (int.TryParse(numeroStr, out int numero))
+                {
+                    if (numero > ultimoNumero)
+                    {
+                        ultimoNumero = numero;
+                    }
+                }
             }
+
+            int nuevoNumero = ultimoNumero + 1;
 
             return $"{prefijo}{nuevoNumero}";
         }
