@@ -127,7 +127,6 @@ namespace InventarioPED.Forms
               
                 //LIMPIANDO ARBOL Y GRID
                 dataGridView1.Rows.Clear(); // También vacía el DataGridView
-                arbol = new ArbolBinario();
                 //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
                 CargarProductosEnArbol(arbol);
                 CargarDatosEnGrid(arbol, dataGridView1);
