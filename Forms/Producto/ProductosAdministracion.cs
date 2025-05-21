@@ -115,6 +115,7 @@ namespace InventarioPED.Forms
         private void button3_Click(object sender, EventArgs e)
         {
             string idProducto = cmbElimProd.Text;
+
             Nodo prod = arbol.BuscarPorId(idProducto);
             if (prod.Cantidad > 0)
             {
@@ -123,10 +124,10 @@ namespace InventarioPED.Forms
             else
             {
                 EliminarProducto(idProducto);
-
+              
                 //LIMPIANDO ARBOL Y GRID
                 dataGridView1.Rows.Clear(); // También vacía el DataGridView
-
+                arbol = new ArbolBinario();
                 //RECARGANDO LOS PRODUCTOS AL ARBOL Y A LA DGV
                 CargarProductosEnArbol(arbol);
                 CargarDatosEnGrid(arbol, dataGridView1);
