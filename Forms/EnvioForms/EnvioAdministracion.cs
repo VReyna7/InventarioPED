@@ -208,7 +208,7 @@ namespace InventarioPED.Forms.EnvioForms
                 }
                 else
                 {
-                    MessageBox.Show("Producto no encontrado en el árbol.", "Error");
+                    MessageBox.Show("Envio no encontrado en el árbol.", "Error");
                 }
             }
         }
@@ -287,7 +287,7 @@ namespace InventarioPED.Forms.EnvioForms
             }
             else
             {
-                MessageBox.Show("Producto no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Envio no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -327,11 +327,11 @@ namespace InventarioPED.Forms.EnvioForms
                 {
                     contexto.Envios.Remove(Envios);
                     contexto.SaveChanges();
-                    Console.WriteLine($"✅ Producto '{idEnv}' eliminado correctamente.");
+                    Console.WriteLine($"✅ Envio '{idEnv}' eliminado correctamente.");
                 }
                 else
                 {
-                    Console.WriteLine($"❌ Producto '{Envios}' no existe en la BD.");
+                    Console.WriteLine($"❌ Envio '{Envios}' no existe en la BD.");
                 }
             }
         }
@@ -406,11 +406,11 @@ namespace InventarioPED.Forms.EnvioForms
                     EnvBD.PrioridadId = cmbEditPrioridad.SelectedIndex + 1;
 
                     contexto.SaveChanges();  // Guarda cambios en la BD
-                    MessageBox.Show($"✅ Producto '{idEnv}' actualizado correctamente.");
+                    MessageBox.Show($"✅ Envio '{idEnv}' actualizado correctamente.");
                 }
                 else
                 {
-                    MessageBox.Show("❌ Error: El producto no existe en la base de datos.", "Validación");
+                    MessageBox.Show("❌ Error: El Envio no existe en la base de datos.", "Validación");
                 }
             }
 
