@@ -106,6 +106,19 @@ namespace InventarioPED
                 return false;
             }
 
+            if (cantidad < 0)
+            {
+                MessageBox.Show("La cantidad no puede ser negativa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (precio < 0)
+            {
+                MessageBox.Show("El precio no puede ser negativa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+
             if (cmbCategoria.SelectedItem == null || cmbProveedor.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar una categoría y un proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);

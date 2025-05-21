@@ -294,21 +294,37 @@ namespace InventarioPED.Forms.EnvioForms
         private void button3_Click(object sender, EventArgs e)
         {
 
-            arbol.Raiz = null;
+            string idEnvio = cmbElimEnv.SelectedItem?.ToString();
 
-            string idEnvio = cmbElimEnv.Text;
+            if (string.IsNullOrEmpty(idEnvio))
+            {
+                MessageBox.Show("Debe seleccionar un envío para eliminar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             NodoEnvio env = arbol.BuscarPorId(idEnvio);
+
+            if (env == null)
+            {
+                MessageBox.Show("El envío no se encontró en el árbol.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             EliminarEnvios(idEnvio);
+            MessageBox.Show($"✅ Envío '{idEnvio}' eliminado correctamente.", "Eliminación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
-            dtgvTodosEnvios.Rows.Clear(); // También vacía el DataGridView
+            // Limpiar árbol y grid
+            arbol.Raiz = null;
+                dtgvTodosEnvios.Rows.Clear();
 
-            CargarEnviosDesdeBD(arbol);
-            CargarEnviosEnGrid(arbol, dtgvTodosEnvios);
+                // Recargar datos desde base de datos
+                CargarEnviosDesdeBD(arbol);
+                CargarEnviosEnGrid(arbol, dtgvTodosEnvios);
 
-            //LLENANDO LOS CMB CORRESPONDIENTES
-            LlenarComboBoxDesdeArbol(arbol, cmbIdEnv);
-            LlenarComboBoxDesdeArbol(arbol, cmbElimEnv);
+                // Actualizar combobox
+                LlenarComboBoxDesdeArbol(arbol, cmbIdEnv);
+                LlenarComboBoxDesdeArbol(arbol, cmbElimEnv);
         }
 
         private void btnVistaGeneralEnvios_Click(object sender, EventArgs e)
